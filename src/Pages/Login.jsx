@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 import FormLogin from "../Components/Moleculs/FormLogin";
 

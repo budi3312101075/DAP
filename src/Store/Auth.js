@@ -1,8 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware"; // Use curly braces for named import
 
-export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
-});
+export const useAuth = create(
+  persist(
+    (set) => ({
+      loginResponse: null,
+      setLoginResponse: (response) => set({ loginResponse: response.data }),
+      setLogOut: () => set({ loginResponse: null }),
+    }),
+    {
+      name: "user", // Nama untuk penyimpanan lokal
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

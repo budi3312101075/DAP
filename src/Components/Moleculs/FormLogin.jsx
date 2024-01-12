@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import Button from "../Atoms/Button";
+import { useAuth } from "../../Store/Auth";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FormLogin = () => {
-  const { register, handleSubmit, formState, setError } = useForm();
+  const { register, handleSubmit, formState } = useForm();
+  const { loginResponse, setLoginResponse } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      await axios.post("http://localhost:5000/Login", data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      navigate("/Home");
-      console.log(data);
+      const response = await axios.post("http://localhost:5000/Login", data);
+      if (response.data !== undefined && response.status === 200) {
+        const userData = await response.data;
+        setLoginResponse(userData);
+        navigate("/");
+        // console.log(userData?.data?.role);
+      }
     } catch (error) {
-      console.error(error);
+      console.log(error.massage);
     }
   };
 
+  // console.log(loginResponse);
   return (
     <div>
       <form
