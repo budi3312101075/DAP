@@ -10,7 +10,8 @@ const Login = () => {
         className="object-cover w-screen h-screen"
         alt=""
       />
-      <div className="hero-content flex-col lg:flex-row-reverse w-screen">
+      <div className="w-full h-full absolute top-0 left-0 bg-black/20 z-10"></div>
+      <div className="hero-content flex-col lg:flex-row-reverse w-screen z-20">
         <div className="text-center lg:text-left text-white">
           <h1 className="text-4xl lg:text-5xl xl:text-5xl font-bold">
             Selamat Datang Di

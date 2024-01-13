@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
           <div className="w-full px-5 navbar bg-primary">
-            <div className="flex-1 px-2 mx-2">
+            <div className="flex-1 px-7 mx-2">
               <img className="w-16" src="./logo.png" alt="" />
             </div>
             <div className="flex-none lg:hidden">
