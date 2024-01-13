@@ -1,14 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Atoms/Button";
 import { useAuth } from "../../Store/Auth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { IoEyeSharp } from "react-icons/io5";
+import { TbPassword } from "react-icons/tb";
+import { toast } from "react-toastify";
 
 const FormLogin = () => {
   const { register, handleSubmit, formState } = useForm();
   const { loginResponse, setLoginResponse } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -18,48 +28,63 @@ const FormLogin = () => {
         setLoginResponse(userData);
         navigate("/");
         // console.log(userData?.data?.role);
+        toast.success("Selamat Datang");
       }
     } catch (error) {
-      console.log(error.massage);
+      toast.error("Email atau password salah");
     }
   };
 
   // console.log(loginResponse);
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-3"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="card-body text-black">
         {formState.errors.username && (
           <span className="text-red-600">
             Hanya huruf dan angka yang diperbolehkan untuk Username
           </span>
         )}
-        <input
-          className="rounded-md px-2 py-[1px]"
-          type="text"
-          {...register("username", {
-            required: true,
-            maxLength: 20,
-            pattern: /^[A-Za-z0-9]+$/i,
-          })}
-          placeholder="Username"
-        />
+        <div className="form-control ">
+          <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+            <FaUser />
+            <input
+              type="text"
+              className="w-full bg-[#f2f4f6] placeholder:text-black"
+              {...register("username", {
+                required: true,
+                maxLength: 20,
+                pattern: /^[A-Za-z0-9]+$/i,
+              })}
+              placeholder="Username"
+            />
+          </div>
+        </div>
 
         {formState.errors.password && (
           <span className="text-red-600">Password harus diisi.</span>
         )}
-        <input
-          className="rounded-md px-2 py-[1px]"
-          type="password"
-          {...register("password", { required: true })}
-          placeholder="******"
-        />
-
+        <div className="form-control">
+          <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+            <TbPassword size={25} />
+            <input
+              type={showPassword ? "text" : "password"}
+              {...register("password", { required: true })}
+              placeholder="******"
+              className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-black"
+            />
+            {showPassword ? (
+              <AiFillEyeInvisible
+                size={25}
+                onClick={togglePasswordVisibility}
+              />
+            ) : (
+              <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+            )}
+          </div>
+        </div>
         <Button
           type="submit"
-          style="w-40 mx-auto"
+          style="w-40 mx-auto bg-[#0c398a] text-white mt-2"
           isi={formState.isSubmitting ? "Logging in..." : "Login"}
           disabled={formState.isSubmitting}
         />

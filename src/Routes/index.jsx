@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 // import { useAuth } from "../Store/Auth";
 import { Routes, Route } from "react-router-dom";
 import Login from "../Pages/Login";
-import Home from "../Pages/Home";
+import LandingPage from "../Pages/LandingPage";
 import NotFound from "../Pages/NotFound";
 import Dashboard from "../Pages/Admin/Dashboard";
 import SuperadminDash from "../Pages/SuperAdmin/Dashboard";
 import ManajemenDash from "../Pages/Manajemen/Dashboard";
 import { useAuth } from "../Store/Auth";
 import { useNavigate } from "react-router-dom";
+import Home from "../Pages/Karyawan/Home";
 
 const Routing = () => {
   const { loginResponse, setLoginResponse } = useAuth();
@@ -18,7 +19,7 @@ const Routing = () => {
 
   // const redirect = () => {
   //   if (role == "Karyawan") {
-  //     navigate("/home");
+  //     navigate("/LandingPage");
   //   } else if (role == "Admin") {
   //     navigate("/dashboard-admin");
   //   } else if (role == "SuperAdmin") {
@@ -39,7 +40,7 @@ const Routing = () => {
   if (role == "Karyawan") {
     return (
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     );
@@ -71,7 +72,10 @@ const Routing = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<LandingPage />}>
+        <Route index element={<Home />} />
+      </Route>
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -80,13 +84,13 @@ const Routing = () => {
   //   <Routes>
   //     <Route element={<CekLogin />}>
   //       {/* kalau blm login dia bisa akses ini jika sudah login dia tidak bisa akses path dalam ini lagi */}
-  //       <Route path="/home" element={<Home />} />
+  //       <Route path="/LandingPage" element={<LandingPage />} />
   //       <Route path="/" element={<Login />} />
   //     </Route>
   //     <Route element={<AuthRoute />}>
   //       {/* kalau mau routing yg udh login tapi ga cek role bisa taruh sini */}
   //       <Route element={<Karyawan />}>
-  //         <Route path="/" element={<Home />} />
+  //         <Route path="/" element={<LandingPage />} />
   //       </Route>
   //       <Route element={<Admin />}>
   //         <Route path="/dashboard-admin" element={<Dashboard />} />
