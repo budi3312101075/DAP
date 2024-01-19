@@ -1,12 +1,26 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Store/Auth";
+import Button from "../Atoms/Button";
+import axios from "axios";
 
 const Navbar = () => {
-  const navMenu = ["Home", "Pengajuan", "Kriteria", "Laporan", "Logout"];
-  const navLinks = ["/", "/berita", "/tentang", "/jadwal", "/stock"];
+  const navMenu = ["Home", "Pengajuan", "Kriteria", "Laporan", "Status"];
+  const navLinks = ["/", "/pengajuan", "/Kriteria", "/Laporan", "/Status"];
+  const navigate = useNavigate();
+  const { loginResponse, setLoginResponse, setLogOut } = useAuth();
+
+  const handleLogout = async () => {
+    const logout = await axios.get("http://localhost:5000/Logout");
+    setLoginResponse(logout);
+    navigate("/");
+    setLogOut();
+    // localStorage.clear();
+  };
+
   return (
     <div>
-      <div className="drawer fixed z-50">
+      <div className={`drawer fixed top-0 left-0 z-[1000] `}>
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
@@ -37,17 +51,34 @@ const Navbar = () => {
             </div>
             <div className="flex-none hidden lg:block">
               <ul className="menu menu-horizontal">
-                {navMenu.map((item, index) => {
-                  return (
-                    <NavLink
-                      key={index}
+                {loginResponse ? (
+                  <div>
+                    {navMenu.map((item, index) => (
+                      <NavLink
+                        key={index}
+                        className="cursor-pointer font-poppins text-lg px-2 text-white"
+                        to={navLinks[index]}
+                      >
+                        {item}
+                      </NavLink>
+                    ))}
+                    <button
                       className="cursor-pointer font-poppins text-lg px-2 text-white"
-                      to={navLinks[index]}
+                      onClick={handleLogout}
                     >
-                      {item}
-                    </NavLink>
-                  );
-                })}
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <Link
+                      to="/login"
+                      className=" text-lg rounded-xl font-poppins text-black bg-white px-6 py-1"
+                    >
+                      Login
+                    </Link>
+                  </div>
+                )}
               </ul>
             </div>
           </div>
@@ -66,18 +97,36 @@ const Navbar = () => {
               </h1>
             </div>
             {/* Sidebar content here */}
-
-            {navMenu.map((item, index) => {
-              return (
-                <NavLink
-                  key={index}
-                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-white"
-                  to={navLinks[index]}
+            {loginResponse ? (
+              <>
+                {navMenu.map((item, index) => {
+                  return (
+                    <NavLink
+                      key={index}
+                      className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-white"
+                      to={navLinks[index]}
+                    >
+                      {item}
+                    </NavLink>
+                  );
+                })}{" "}
+                <button
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-white text-start"
+                  onClick={handleLogout}
                 >
-                  {item}
-                </NavLink>
-              );
-            })}
+                  Logout
+                </button>
+              </>
+            ) : (
+              <div>
+                <Link
+                  to="/login"
+                  className=" text-lg rounded-xl font-poppins text-black bg-white px-6 py-1"
+                >
+                  Login
+                </Link>
+              </div>
+            )}
           </ul>
         </div>
       </div>

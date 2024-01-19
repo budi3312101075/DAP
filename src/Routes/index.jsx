@@ -10,37 +10,39 @@ import ManajemenDash from "../Pages/Manajemen/Dashboard";
 import { useAuth } from "../Store/Auth";
 import { useNavigate } from "react-router-dom";
 import Home from "../Pages/Karyawan/Home";
+import Pengajuan from "../Pages/Karyawan/Pengajuan";
+import HomeAdmin from "../Pages/Admin/HomeAdmin";
+import Kriteria from "../Pages/Karyawan/Kriteria";
+import Status from "../Pages/Karyawan/Status";
+import { jwtDecode } from "jwt-decode";
 
 const Routing = () => {
-  const { loginResponse, setLoginResponse } = useAuth();
+  const { loginResponse } = useAuth();
   const navigate = useNavigate();
 
-  const role = loginResponse?.role;
+  let role;
+  let decoded;
 
-  // const redirect = () => {
-  //   if (role == "Karyawan") {
-  //     navigate("/LandingPage");
-  //   } else if (role == "Admin") {
-  //     navigate("/dashboard-admin");
-  //   } else if (role == "SuperAdmin") {
-  //     navigate("/dashboard-Super");
-  //   } else if (role == "Manajemen") {
-  //     navigate("/dashboard-Manajemen");
-  //   }
-  // };
+  if (loginResponse) {
+    const token = loginResponse;
+    decoded = jwtDecode(token);
+    // console.log(decoded);
+  }
 
-  // useEffect(() => {
-  //   if (loginResponse) {
-  //     redirect();
-  //   } else {
-  //     console.log("error");
-  //   }
-  // }, [loginResponse, setLoginResponse]);
+  role = decoded?.role;
+  // console.log(role);
+
+  // const role = loginResponse?.role;
 
   if (role == "Karyawan") {
     return (
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />}>
+          <Route index element={<Home />} />
+          <Route path="/pengajuan" element={<Pengajuan />} />
+          <Route path="/Kriteria" element={<Kriteria />} />
+          <Route path="/Status" element={<Status />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     );
@@ -48,7 +50,9 @@ const Routing = () => {
   if (role == "Admin") {
     return (
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />}>
+          <Route index element={<HomeAdmin />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     );
@@ -79,33 +83,6 @@ const Routing = () => {
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
-
-  // return (
-  //   <Routes>
-  //     <Route element={<CekLogin />}>
-  //       {/* kalau blm login dia bisa akses ini jika sudah login dia tidak bisa akses path dalam ini lagi */}
-  //       <Route path="/LandingPage" element={<LandingPage />} />
-  //       <Route path="/" element={<Login />} />
-  //     </Route>
-  //     <Route element={<AuthRoute />}>
-  //       {/* kalau mau routing yg udh login tapi ga cek role bisa taruh sini */}
-  //       <Route element={<Karyawan />}>
-  //         <Route path="/" element={<LandingPage />} />
-  //       </Route>
-  //       <Route element={<Admin />}>
-  //         <Route path="/dashboard-admin" element={<Dashboard />} />
-  //       </Route>
-  //       <Route element={<SuperAdmin />}>
-  //         <Route path="/dashboard-Super" element={<SuperadminDash />} />
-  //       </Route>
-  //       <Route element={<Manajemen />}>
-  //         <Route path="/dashboard-Manajemen" element={<ManajemenDash />} />
-  //       </Route>
-  //     </Route>
-
-  //     <Route path="*" element={<NotFound />} />
-  //   </Routes>
-  // );
 };
 
 export default Routing;
