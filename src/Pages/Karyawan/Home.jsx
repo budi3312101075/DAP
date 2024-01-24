@@ -1,106 +1,160 @@
 import React from "react";
-import { GrMoney } from "react-icons/gr";
-import { TbReportMoney } from "react-icons/tb";
-import { BsInfoSquare } from "react-icons/bs";
-import { Card, Card2 } from "../../Components/Moleculs/Card.jsx";
-import { FaAddressBook } from "react-icons/fa";
-import { MdOutlineContactPhone } from "react-icons/md";
-import { MdEmail } from "react-icons/md";
-import { MdDomain } from "react-icons/md";
-import Hero from "../../Components/Moleculs/Hero.jsx";
+import Hero from "../../Components/Moleculs/Hero";
+import Card from "../../Components/Moleculs/Card";
 
 const Home = () => {
   return (
-    <>
+    <div className="max-h-max p-12 bg-primary pt-20 font-poppins" id="beranda">
       <Hero />
-      <div className=" px-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center justify-center gap-5 z-30 absolute -mt-40">
+      <div className="flex flex-col gap-16 items-center lg:flex-row lg:gap-20 lg:justify-center">
         <Card
-          icons={<GrMoney size={45} className="text-primary" />}
-          title="Pengajuan"
-          to="/pengajuan"
-        />
-        <Card
-          icons={<TbReportMoney size={45} className="text-primary" />}
-          title="Laporan"
-          to="/pengajuan"
+          gambar="./money.png"
+          judul="Total Dana"
+          title="Jumlah dana yang terkumpul"
         />
         <Card
-          icons={<BsInfoSquare size={45} className="text-primary" />}
-          title="Status Klaim"
-          to="/pengajuan"
+          gambar="./pengajuan.png"
+          judul="Pengajuan"
+          title="Permintaan bantuan keryawan"
+        />
+        <Card
+          gambar="./laporan.png"
+          judul="Laporan"
+          title="Riwayat Donasi untuk karyawan "
+        />
+        <Card
+          gambar="./kriteria.png"
+          judul="Kriteria Bantuan"
+          title="Syarat pengajuan donasi untuk karyawan"
         />
       </div>
-      <div className="h-screen bg-secondary"></div>
-      <div className="h-screen bg-secondary xl:hidden lg:hidden"></div>
-      <div className="h-screen w-full bg-secondary -mt-96 flex flex-col p-10 xl:flex-row gap-7 lg:px-28">
-        <img
-          src="./Poltek.jpg"
-          alt=""
-          className="mx-auto w-full md:w-1/2 xl:w-1/3"
-        />
-        <div className="text-black h-52 font-poppins text-justify">
-          <h1 className="text-primary text-3xl xl:text-4xl font-thin">
-            Selamat Datang Di
-          </h1>
-          <h1 className="text-primary text-2xl xl:text-3xl font-bold ">
-            Dana Amal Polibatam
-          </h1>
-          <p className="text-sm mb-2 mt-3 lg:text-lg">
-            Sistem Aplikasi Dompet Amal berbasis web ini berfungsi untuk mendata
-            dana sosial yang disetorkan setiap bulan oleh semua karyawan
-            Polibatam. Dana ini akan diambil untuk kepentingan sosial seperti
-            santunan kedudukan karyawan, bantuan berobat, pernikahan, kelahiran
-            anak dan kegiatan sosial lainnya yang relevan.
-          </p>
-          <p className="text-sm lg:text-lg">
-            Didalam applikasi ini sudah terdapat fitur pengajuan bantuan sesuai
-            fasilitas yang tersedia di DAP. Dikarenakan sistem ini untuk mendata
-            dana sosial maka terdapat fitur untuk mendata laporan dana yang
-            terkumpul baik secara periodic dan kumulatif, maka setiap karyawan
-            dapat melihat gambaran berapa banyak yang sudah mereka sumbangkan
-            setiap bulannya dan berapa juga benefit yang diperoleh, kemudian
-            dapat di hitung rasio manfaatnya sehingga dapat melihat perputaran
-            dana DAP, tentu saja harapan benefitnya bisa dirasakan dan terukur
-            lebih besar dari biaya yang dikeluarkan.
-          </p>
+
+      <div className="mt-16" id="tentang">
+        <h1 className="lg:text-4xl text-2xl font-bold text-secondary mb-5">
+          Cara Untuk Melindungi Sesama
+        </h1>
+        <div className="flex bg-primary rounded-3xl drop-shadow-2xl px-5">
+          <img src="./Helping.gif" alt="Movie" className="hidden lg:block" />
+          <div className="card-body">
+            <h2 className="lg:text-3xl text-2xl text-black font-bold">
+              DOMPET AMAL
+            </h2>
+            <h3 className="text-md lg:text-lg text-tertiary font-semibold">
+              Politeknik Negeri Batam
+            </h3>
+            <p className="text-justify text-tertiary text-sm lg:text-lg">
+              Dompet Amal Polibatam adalah dana sosial yang disetorkan setiap
+              bulan oleh semua karyawan polibatam dan dikumpulkan oleh pengelola
+              Dompet Amal. Dana yang dikumpulkan ini akan dikeluarkan untuk
+              kepentingan sosial seperti santunan kedukaan karyawan, bantuan
+              berobat, pernikahan, kelahiran anak dan kegiatan sosial lainnya
+              yang relevan. Jadi selain setiap pegawai bisa tau berapa dana DAP
+              setiap angota yang disetor ke DAP setiap bulan, pegawai juga bisa
+              mengetahui total dana DAP yang terkumpul saat ini, juga dapat
+              mengetahui record transaksi pengeluaran. Setiap karyawan yang
+              menyetorkan dana setiap bulan dapat melakukan pengajuan bantuan
+              sesuai fasilitas DAP (kedukaan, musibah, berobat, kelahiran,
+              aqiqah, masuk sekolah) dengan mengisi form dan melampirkan dokumen
+              bukti yang relevan, terdapat informasi panduan dan kriteria DAP.
+            </p>
+          </div>
         </div>
       </div>
-      <div className="bg-secondary min-h-full lg:h-screen lg:px-28 p-10 gap-7 flex flex-col items-center">
-        <div className="text-center font-poppins">
-          <h1 className="text-primary text-3xl xl:text-4xl font-bold  lg:pt-11 mb-5">
-            Hubungi Kami
-          </h1>
-          <p className="text-black text-sm lg:text-xl">
-            Hubungi kami untuk pertanyaan lebih lanjut atau bantuan, Pendapat
-            Anda sangat berarti bagi kami.
-          </p>
-        </div>
-        <div className=" gap-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-          <Card2
-            icons={<FaAddressBook size={35} className="text-primary mt-9" />}
-            title="Address"
-            desc="Batam Centre, Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota Batam, Kepulauan Riau 29461"
-          />
-          <Card2
-            icons={
-              <MdOutlineContactPhone size={35} className="text-primary mt-9" />
-            }
-            title="Contact"
-            desc="+62 123 456 7890"
-          />
-          <Card2
-            icons={<MdEmail size={35} className="text-primary mt-9" />}
-            title="Email"
-            desc="danaamalpolibatam@gmail.com"
-          />
-          <Card2
-            icons={<MdDomain size={35} className="text-primary mt-9" />}
-            title="Website"
-            desc="danaamalpoltek.com"
-          />
+
+      <div className="mt-16">
+        <h1 className="lg:text-4xl text-2xl text-secondary mb-5 text-center font-bold">
+          Visi dan Misi
+        </h1>
+        <div className="grid lg:grid-cols-3 text-justify grid-cols-1">
+          <div className="text-tertiary">
+            <h1 className="font-bold mb-5 lg:text-xl text-lg text-center">
+              Visi Dompet Amal Polibatam
+            </h1>
+            <p className="lg:text-lg text-sm">
+              Menjadi sarana terbaik bagi karyawan Polibatam untuk berbagi
+              dengan sesama. Visi ini menggambarkan tujuan Dompet Amal Polibatam
+              untuk menjadi sarana yang bermanfaat bagi karyawan Polibatam untuk
+              berbagi dengan sesama. Dompet Amal Polibatam diharapkan dapat
+              menjadi wadah bagi karyawan Polibatam untuk menyalurkan kepedulian
+              sosial mereka kepada sesama yang membutuhkan.
+            </p>
+          </div>
+          <img src="./Visi.gif" alt="visi&Misi" className="w-96 mx-auto" />
+          <div className="text-tertiary">
+            <h1 className="font-bold mb-5 lg:text-xl text-lg text-center">
+              Misi Dompet Amal Polibatam
+            </h1>
+            <p className="lg:text-lg text-sm">
+              Dompet Amal Polibatam akan dikelola secara efisien dan transparan
+              untuk memastikan bahwa dana yang terkumpul dapat digunakan secara
+              tepat sasaran. Selain itu, Dompet Amal Polibatam akan memberikan
+              kemudahan bagi karyawan Polibatam untuk mengetahui saldo dana,
+              laporan keuangan, dan pengajuan bantuan. Hal ini bertujuan untuk
+              meningkatkan transparansi dan kepercayaan karyawan Polibatam
+              terhadap Dompet Amal Polibatam. Dompet Amal Polibatam juga akan
+              meningkatkan kesadaran karyawan Polibatam untuk berbagi dengan
+              sesama melalui berbagai kegiatan edukasi dan sosialisasi.
+            </p>
+          </div>
         </div>
       </div>
-    </>
+
+      <div className="mt-16">
+        <h1 className="lg:text-4xl text-2xl text-secondary text-center font-bold">
+          Moto
+        </h1>
+        <p className="text-tertiary text-center lg:text-2xl text-lg">
+          “Bersama bergabagi, bersama sejahtera”
+        </p>
+      </div>
+
+      <div className="mt-16" id="kontak">
+        <h1 className="lg:text-4xl text-2xl text-secondary font-bold mb-8 text-center">
+          Hubungi kami
+        </h1>
+        <div className="flex justify-around">
+          <div className="flex flex-col py-10 gap-4 items-center bg-primary rounded-3xl drop-shadow-2xl lg:w-1/2 w-full px-5">
+            <h1 className="text-2xl text-black">Berikan Pesan</h1>
+            <label className="form-control gap-1 w-full max-w-md">
+              <span className="text-tertiary pl-1">Masukan Nama Lengkap</span>
+              <input
+                type="text"
+                placeholder="Masukan nama lengkap anda"
+                className="input input-bordered w-full max-w-md bg-primary border-2 text-tertiary"
+              />
+            </label>
+            <label className="form-control gap-1 w-full max-w-md bg-primary">
+              <span className="text-tertiary pl-1">Email Anda</span>
+              <input
+                type="text"
+                placeholder="Masukan email anda"
+                className="input input-bordered w-full max-w-md bg-primary border-2 text-tertiary"
+              />
+            </label>
+            <label className="form-control gap-1 w-full max-w-md bg-primary">
+              <span className="text-tertiary pl-1">Subject</span>
+              <input
+                type="text"
+                placeholder="Masukan subject anda"
+                className="input input-bordered w-full max-w-md bg-primary border-2 text-tertiary"
+              />
+            </label>
+            <label className="form-control gap-1 w-full max-w-md bg-primary">
+              <span className="text-tertiary pl-1">Pesan</span>
+              <textarea
+                type="text"
+                placeholder="Masukan pesan anda"
+                className="input input-bordered w-full max-w-md bg-primary border-2 text-tertiary pt-2 placeholder:pt-5 h-20"
+              />
+            </label>
+            <button className="max-w-max bg-secondary px-14 text-black rounded-full ">
+              Kirim
+            </button>
+          </div>
+          <img src="./Contact.gif" alt="contact" className="hidden lg:block" />
+        </div>
+      </div>
+    </div>
   );
 };
 

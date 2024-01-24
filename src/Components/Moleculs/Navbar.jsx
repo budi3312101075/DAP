@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link as Scroll } from "react-scroll";
 import { useAuth } from "../../Store/Auth";
 import Button from "../Atoms/Button";
 import axios from "axios";
@@ -24,8 +25,8 @@ const Navbar = () => {
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <div className="w-full px-5 navbar bg-primary">
-            <div className="flex-1 px-7 mx-2">
+          <div className="w-full lg:px-10 px-4 navbar bg-primary">
+            <div className="flex-1  mx-2">
               <img className="w-16" src="./logo.png" alt="" />
             </div>
             <div className="flex-none lg:hidden">
@@ -56,26 +57,55 @@ const Navbar = () => {
                     {navMenu.map((item, index) => (
                       <NavLink
                         key={index}
-                        className="cursor-pointer font-poppins text-lg px-2 text-white"
+                        className="cursor-pointer font-poppins text-lg px-2 text-black mx-1"
                         to={navLinks[index]}
                       >
                         {item}
                       </NavLink>
                     ))}
                     <button
-                      className="cursor-pointer font-poppins text-lg px-2 text-white"
+                      className="text-lg rounded-xl font-poppins text-white bg-secondary px-6 py-1 ml-5"
                       onClick={handleLogout}
                     >
                       Logout
                     </button>
                   </div>
                 ) : (
-                  <div>
+                  <div className="flex gap-20 items-center">
+                    <div className="flex gap-10">
+                      <Scroll
+                        to="beranda"
+                        smooth={true}
+                        duration={500}
+                        offset={-100}
+                        className="text-lg font-poppins text-black hover:text-secondary"
+                      >
+                        Beranda
+                      </Scroll>
+                      <Scroll
+                        to="tentang"
+                        smooth={true}
+                        duration={500}
+                        offset={-100}
+                        className="text-lg font-poppins text-black hover:text-secondary"
+                      >
+                        Tentang Kami
+                      </Scroll>
+                      <Scroll
+                        to="kontak"
+                        smooth={true}
+                        duration={500}
+                        offset={-100}
+                        className="text-lg font-poppins text-black hover:text-secondary"
+                      >
+                        Kontak
+                      </Scroll>
+                    </div>
                     <Link
                       to="/login"
-                      className=" text-lg rounded-xl font-poppins text-black bg-white px-6 py-1"
+                      className="text-lg rounded-full font-poppins text-white bg-secondary px-8 py-2"
                     >
-                      Login
+                      Masuk
                     </Link>
                   </div>
                 )}
@@ -92,7 +122,7 @@ const Navbar = () => {
           <ul className="menu p-4 w-80 min-h-full bg-primary">
             <div className="flex gap-5 justify-center items-center mb-10 mt-5">
               <img className="w-20" src="./logo.png" alt="" />
-              <h1 className="text-2xl font-bold text-white">
+              <h1 className="text-2xl font-bold text-black">
                 DANA AMAL POLIBATAM
               </h1>
             </div>
@@ -103,7 +133,7 @@ const Navbar = () => {
                   return (
                     <NavLink
                       key={index}
-                      className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-white"
+                      className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black"
                       to={navLinks[index]}
                     >
                       {item}
@@ -111,20 +141,48 @@ const Navbar = () => {
                   );
                 })}{" "}
                 <button
-                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-white text-start"
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black text-start"
                   onClick={handleLogout}
                 >
                   Logout
                 </button>
               </>
             ) : (
-              <div>
+              <div className="flex flex-col">
+                {" "}
                 <Link
                   to="/login"
-                  className=" text-lg rounded-xl font-poppins text-black bg-white px-6 py-1"
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black"
                 >
-                  Login
+                  Masuk
                 </Link>
+                <Scroll
+                  to="beranda"
+                  smooth={true}
+                  duration={500}
+                  offset={-100}
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black"
+                >
+                  Beranda
+                </Scroll>
+                <Scroll
+                  to="tentang"
+                  smooth={true}
+                  duration={500}
+                  offset={-100}
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black"
+                >
+                  Tentang Kami
+                </Scroll>
+                <Scroll
+                  to="kontak"
+                  smooth={true}
+                  duration={500}
+                  offset={-100}
+                  className="cursor-pointer font-poppins font-thin text-lg hover:font-bold border-y py-3 text-black"
+                >
+                  Kontak
+                </Scroll>
               </div>
             )}
           </ul>
