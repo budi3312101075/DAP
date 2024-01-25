@@ -38,24 +38,28 @@ const FormLogin = () => {
   // console.log(loginResponse);
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="card-body text-black">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col px-10 mt-5 text-black gap-4"
+      >
         {formState.errors.username && (
           <span className="text-red-600">
             Hanya huruf dan angka yang diperbolehkan untuk Username
           </span>
         )}
-        <div className="form-control ">
+        <div className="form-control">
+          <h1 className="text-md">Username</h1>
           <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
             <FaUser />
             <input
               type="text"
-              className="w-full bg-[#f2f4f6] placeholder:text-black"
+              className="w-full bg-[#f2f4f6] placeholder:text-tertiary"
               {...register("username", {
                 required: true,
                 maxLength: 20,
                 pattern: /^[A-Za-z0-9]+$/i,
               })}
-              placeholder="Username"
+              placeholder="Masukan username anda"
             />
           </div>
         </div>
@@ -64,13 +68,14 @@ const FormLogin = () => {
           <span className="text-red-600">Password harus diisi.</span>
         )}
         <div className="form-control">
+          <h1 className="text-md">Password</h1>
           <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
             <TbPassword size={25} />
             <input
               type={showPassword ? "text" : "password"}
               {...register("password", { required: true })}
-              placeholder="******"
-              className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-black"
+              placeholder="Masukan password anda"
+              className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
             />
             {showPassword ? (
               <AiFillEyeInvisible
@@ -84,7 +89,7 @@ const FormLogin = () => {
         </div>
         <Button
           type="submit"
-          style="w-40 mx-auto bg-[#0c398a] text-white mt-2"
+          style="w-40 mx-auto bg-secondary text-white mt-2 py-1"
           isi={formState.isSubmitting ? "Logging in..." : "Login"}
           disabled={formState.isSubmitting}
         />

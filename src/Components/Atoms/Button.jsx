@@ -5,7 +5,7 @@ const Button = (props) => {
   return (
     <button
       type={props.type}
-      className={`text-lg rounded-xl font-poppins text-black ${props.style}`}
+      className={`text-lg rounded-lg font-poppins text-black ${props.style}`}
       to={props.to}
     >
       {props.isi}

@@ -110,7 +110,7 @@ const Home = () => {
 
       <div className="mt-16" id="kontak">
         <h1 className="lg:text-4xl text-2xl text-secondary font-bold mb-8 text-center">
-          Hubungi kami
+          Hubungi Kami
         </h1>
         <div className="flex justify-around">
           <div className="flex flex-col py-10 gap-4 items-center bg-primary rounded-3xl drop-shadow-2xl lg:w-1/2 w-full px-5">
@@ -147,7 +147,7 @@ const Home = () => {
                 className="input input-bordered w-full max-w-md bg-primary border-2 text-tertiary pt-2 placeholder:pt-5 h-20"
               />
             </label>
-            <button className="max-w-max bg-secondary px-14 text-black rounded-full ">
+            <button className="max-w-max bg-secondary px-14 text-primary rounded-full py-1">
               Kirim
             </button>
           </div>

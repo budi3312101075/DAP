@@ -2,15 +2,15 @@ import React from "react";
 
 const Kriteria = () => {
   return (
-    <div className="h-screen p-10 pt-24 bg-secondary font-poppins">
-      <div className="flex flex-col justify-center items-center ">
-        <h1 className="text-2xl lg:text-3xl text-black font-semibold mt-20">
-          Kriteria penerima
+    <div className="max-h-max p-12 bg-primary pt-24 font-poppins">
+      <div className="flex flex-col justify-center items-center pt-10 gap-5 w-full">
+        <h1 className="text-2xl lg:text-3xl text-black font-semibold">
+          Kriteria Penerima
         </h1>
-        <div className="overflow-x-auto mt-10">
+        <div className="overflow-x-auto text-black w-full">
           <table className="table">
             {/* head */}
-            <thead>
+            <thead className="text-black">
               <tr>
                 <th></th>
                 <th>Name</th>
@@ -34,6 +34,30 @@ const Kriteria = () => {
                 <td>Purple</td>
               </tr>
               {/* row 3 */}
+              <tr>
+                <th>3</th>
+                <td>Brice Swyre</td>
+                <td>Tax Accountant</td>
+                <td>Red</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>Brice Swyre</td>
+                <td>Tax Accountant</td>
+                <td>Red</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>Brice Swyre</td>
+                <td>Tax Accountant</td>
+                <td>Red</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>Brice Swyre</td>
+                <td>Tax Accountant</td>
+                <td>Red</td>
+              </tr>
               <tr>
                 <th>3</th>
                 <td>Brice Swyre</td>

@@ -1,23 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../Components/Atoms/Button";
-import { detailUser } from "../../utils/helper";
-
-const formatRupiah = (angka) => {
-  var number_string = angka.toString(),
-    split = number_string.split(","),
-    sisa = split[0].length % 3,
-    rupiah = split[0].substr(0, sisa),
-    ribuan = split[0].substr(sisa).match(/\d{1,3}/gi);
-
-  if (ribuan) {
-    var separator = sisa ? "." : "";
-    rupiah += separator + ribuan.join(".");
-  }
-
-  rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
-  return rupiah;
-};
+import { detailUser, toRupiah } from "../../utils/helper";
 
 const Pengajuan = () => {
   const {
@@ -26,35 +10,38 @@ const Pengajuan = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const currentDate = new Date().toISOString().split("T")[0];
+
   const user = detailUser();
+
   const onSubmit = (data) => {
-    data.nominal = data.nominal.replace(/[,.]/g, "");
     let body = {
       ...data,
       nama: user.nama,
     };
     console.log(body);
-
-    console.log(data);
     reset();
   };
+
   return (
     <>
-      <div className="h-screen mt-16 bg-secondary p-10 pt-24 text-black font-poppins">
-        <div className="flex flex-col justify-center items-center">
-          <h1 className="font-semibold text-xl lg:text-2xl xl:text-3xl mb-5">
+      <div className="max-h-max p-12 bg-primary pt-24 font-poppins pb-32">
+        <div className="flex flex-col justify-center items-center pt-10">
+          <h1 className="font-semibold text-2xl xl:text-3xl mb-5 text-black">
             Form Pengajuan
           </h1>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-5 w-full lg:max-w-2xl p-10 justify-center items-center bg-primary rounded-lg"
+            className="flex flex-col gap-5 w-full max-w-2xl p-10 justify-center items-center bg-primary rounded-xl drop-shadow-2xl"
           >
             <input
               {...register("tanggal", { required: "Tanggal wajib diisi" })}
               type="date"
-              className={`input input-bordered w-full max-w-lg bg-secondary border border-black ${
+              className={`input input-bordered w-full max-w-lg bg-primary border border-black hidden ${
                 errors.tanggal && "input-error"
               }`}
+              defaultValue={currentDate}
             />
             {errors.tanggal && (
               <span className="text-red-500 text-sm">
@@ -63,41 +50,15 @@ const Pengajuan = () => {
             )}
 
             <input
-              {...register("no_telp", {
-                required: "Nomor telepon wajib diisi",
-                pattern: {
-                  value: /^[0-9\b]+$/,
-                  message: "Nomor telepon hanya boleh berisi angka",
-                },
-                minLength: {
-                  value: 10,
-                  message: "Nomor telepon minimal 10 karakter",
-                },
-              })}
-              placeholder="Nomor Wa / Telepon"
-              className={`input input-bordered w-full max-w-lg bg-secondary border border-black placeholder:italic ${
-                errors.no_telp && "input-error"
-              }`}
-            />
-            {errors.no_telp && (
-              <span className="text-red-500 text-sm">
-                {errors.no_telp.message}
-              </span>
-            )}
-
-            <input
               {...register("nominal", {
                 required: "Nominal wajib diisi",
-                validate: (value) => {
-                  const cleanedValue = value.replace(/[,.]/g, ""); // Hapus titik dan koma
-                  return !isNaN(cleanedValue); // Periksa apakah setelah dihapus titik dan koma masih angka
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: "Nominal hanya dapat berisi angka",
                 },
               })}
-              placeholder="Nominal"
-              onInput={(e) => {
-                e.target.value = formatRupiah(e.target.value);
-              }}
-              className={`input input-bordered w-full max-w-lg bg-secondary border border-black ${
+              placeholder="Nominal yang ingin diajukan"
+              className={`input input-bordered w-full max-w-lg bg-primary border border-black text-black ${
                 errors.nominal && "input-error"
               }`}
             />
@@ -110,7 +71,7 @@ const Pengajuan = () => {
             <textarea
               {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
               placeholder="Deskripsi bantuan"
-              className={`textarea textarea-bordered w-full max-w-lg bg-secondary border border-black placeholder:pt-3 ${
+              className={`textarea textarea-bordered w-full max-w-lg bg-primary border border-black text-black placeholder:pt-3 ${
                 errors.deskripsi && "input-error"
               }`}
             />
@@ -124,7 +85,7 @@ const Pengajuan = () => {
               {...register("Jenis Bantuan", {
                 required: "Jenis bantuan wajib dipilih",
               })}
-              className={`select select-bordered w-full max-w-lg bg-secondary border border-black ${
+              className={`select select-bordered w-full max-w-lg bg-primary border border-black text-black ${
                 errors["Jenis Bantuan"] && "input-error"
               }`}
             >
@@ -143,7 +104,7 @@ const Pengajuan = () => {
               {...register("bukti", { required: "Bukti wajib diupload" })}
               type="file"
               required={true}
-              className={`file-input file-input-bordered w-full max-w-lg bg-secondary border border-black ${
+              className={`file-input file-input-bordered w-full max-w-lg bg-primary border border-black text-black${
                 errors.bukti && "input-error"
               }`}
             />
@@ -155,7 +116,7 @@ const Pengajuan = () => {
 
             <Button
               type="submit"
-              style="w-40 mx-auto bg-secondary mt-2 text-black"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
               isi="Kirim"
             />
           </form>
