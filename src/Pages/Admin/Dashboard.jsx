@@ -17,8 +17,16 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { detailUser } from "../../utils/helper";
+import { BiLogOut } from "react-icons/bi";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { TbReportAnalytics } from "react-icons/tb";
+import { FaUsersRectangle } from "react-icons/fa6";
+import { LiaMoneyBillWaveSolid } from "react-icons/lia";
+import { CgNotes } from "react-icons/cg";
+import { useAuth } from "../../Store/Auth";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -60,6 +68,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  backgroundColor: "#68ACC9",
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -99,6 +108,102 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
+
+  const user = detailUser();
+  const role = user.role;
+  console.log(role);
+
+  const { loginResponse, setLoginResponse, setLogOut } = useAuth();
+  const handleLogout = async () => {
+    const logout = await axios.get("http://localhost:5000/Logout");
+    setLoginResponse(logout);
+    navigate("/");
+    setLogOut();
+    // localStorage.clear();
+  };
+
+  const [navAdmin, setNavAdmin] = React.useState([
+    {
+      id: 1,
+      navigasi: "/",
+      nama: "Dashboard",
+      icon: <LuLayoutDashboard size={23} className="text-gray-600" />,
+    },
+    {
+      id: 2,
+      navigasi: "/Daftar-pengajuan",
+      nama: "Daftar Pengajuan",
+      icon: <InboxIcon size={25} className="text-gray-600" />,
+    },
+    {
+      id: 3,
+      navigasi: "/laporan",
+      nama: "Laporan",
+      icon: <TbReportAnalytics size={25} className="text-gray-600" />,
+    },
+    {
+      id: 4,
+      navigasi: "/keuangan",
+      nama: "Keuangan",
+      icon: <LiaMoneyBillWaveSolid size={25} className="text-gray-600" />,
+    },
+  ]);
+
+  const [navSuper, setNavSuper] = React.useState([
+    {
+      id: 1,
+      navigasi: "/",
+      nama: "Dashboard",
+      icon: <LuLayoutDashboard size={23} className="text-gray-600" />,
+    },
+    {
+      id: 2,
+      navigasi: "/Daftar-pengajuan",
+      nama: "Daftar Pengajuan",
+      icon: <InboxIcon size={25} className="text-gray-600" />,
+    },
+    {
+      id: 3,
+      navigasi: "/laporan",
+      nama: "Laporan",
+      icon: <TbReportAnalytics size={25} className="text-gray-600" />,
+    },
+    {
+      id: 4,
+      navigasi: "/keuangan",
+      nama: "Keuangan",
+      icon: <LiaMoneyBillWaveSolid size={25} className="text-gray-600" />,
+    },
+    {
+      id: 5,
+      navigasi: "/Kriteria",
+      nama: "Kriteria Bantuan",
+      icon: <CgNotes size={23} className="text-gray-600" />,
+    },
+    {
+      id: 6,
+      navigasi: "/Daftar-user",
+      nama: "Daftar User",
+      icon: <FaUsersRectangle size={23} className="text-gray-600" />,
+    },
+  ]);
+
+  const [navManajemen, setNavManajemen] = React.useState([
+    {
+      id: 1,
+      navigasi: "/",
+      nama: "Dashboard",
+      icon: <LuLayoutDashboard size={23} className="text-gray-600" />,
+    },
+    {
+      id: 2,
+      navigasi: "/laporan",
+      nama: "Laporan",
+      icon: <TbReportAnalytics size={25} className="text-gray-600" />,
+    },
+  ]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -133,31 +238,123 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+          {/* sidebar menu */}
+          {role === "Admin" ? (
+            // Logika atau tampilan khusus untuk Admin
+            <ListItem sx={{ display: "block" }}>
+              {navAdmin.map((link) => (
+                <ListItemButton
+                  key={link.id}
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
+                  onClick={() => navigate(link.navigasi)} //navigasi ke halaman mana
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span className="-ml-2">{link.icon}</span>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={link.nama} //nama
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              ))}
             </ListItem>
-          ))}
+          ) : role === "SuperAdmin" ? (
+            // Logika atau tampilan khusus untuk superadmin
+            <ListItem sx={{ display: "block" }}>
+              {navSuper.map((link) => (
+                <ListItemButton
+                  key={link.id}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                  onClick={() => navigate(link.navigasi)} //navigasi ke halaman mana
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span className="-ml-2">{link.icon}</span>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={link.nama} //nama
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              ))}
+            </ListItem>
+          ) : role === "Manajemen" ? (
+            // Logika atau tampilan default jika tidak ada yang sesuai
+            <ListItem sx={{ display: "block" }}>
+              {navManajemen.map((link) => (
+                <ListItemButton
+                  key={link.id}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                  onClick={() => navigate(link.navigasi)} //navigasi ke halaman mana
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span className="-ml-2">{link.icon}</span>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={link.nama} //nama
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              ))}
+            </ListItem>
+          ) : (
+            <h1>Role Tidak Diketahui</h1>
+          )}
         </List>
         <Divider />
-        {/* masukin tombol logout */}
+        {/* Button Logout Disini */}
+        <List>
+          <ListItem sx={{ display: "block" }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+              onClick={handleLogout}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <BiLogOut className="-ml-2 text-gray-600" size={25} />
+              </ListItemIcon>
+              <ListItemText primary={"Keluar"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+        </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />

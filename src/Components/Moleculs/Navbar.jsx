@@ -78,7 +78,7 @@ const Navbar = () => {
                         smooth={true}
                         duration={500}
                         offset={-100}
-                        className="text-lg font-poppins text-black hover:text-secondary"
+                        className="text-lg font-poppins text-black hover:text-secondary cursor-pointer"
                       >
                         Beranda
                       </Scroll>
@@ -87,7 +87,7 @@ const Navbar = () => {
                         smooth={true}
                         duration={500}
                         offset={-100}
-                        className="text-lg font-poppins text-black hover:text-secondary"
+                        className="text-lg font-poppins text-black hover:text-secondary cursor-pointer"
                       >
                         Tentang Kami
                       </Scroll>
@@ -96,7 +96,7 @@ const Navbar = () => {
                         smooth={true}
                         duration={500}
                         offset={-100}
-                        className="text-lg font-poppins text-black hover:text-secondary"
+                        className="text-lg font-poppins text-black hover:text-secondary cursor-pointer"
                       >
                         Kontak
                       </Scroll>

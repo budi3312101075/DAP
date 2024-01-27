@@ -5,13 +5,11 @@ import Login from "../Pages/Login";
 import LandingPage from "../Pages/LandingPage";
 import NotFound from "../Pages/NotFound";
 import Dashboard from "../Pages/Admin/Dashboard";
-import SuperadminDash from "../Pages/SuperAdmin/Dashboard";
-import ManajemenDash from "../Pages/Manajemen/Dashboard";
 import { useAuth } from "../Store/Auth";
 import { useNavigate } from "react-router-dom";
 import Home from "../Pages/Karyawan/Home";
 import Pengajuan from "../Pages/Karyawan/Pengajuan";
-import HomeAdmin from "../Pages/Admin/HomeAdmin";
+import HomeDashboard from "../Pages/Admin/HomeDashboard";
 import Kriteria from "../Pages/Karyawan/Kriteria";
 import Status from "../Pages/Karyawan/Status";
 import { jwtDecode } from "jwt-decode";
@@ -51,7 +49,7 @@ const Routing = () => {
     return (
       <Routes>
         <Route path="/" element={<Dashboard />}>
-          <Route index element={<HomeAdmin />} />
+          <Route index element={<HomeDashboard />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -60,7 +58,9 @@ const Routing = () => {
   if (role == "SuperAdmin") {
     return (
       <Routes>
-        <Route path="/" element={<SuperadminDash />} />
+        <Route path="/" element={<Dashboard />}>
+          <Route index element={<HomeDashboard />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     );
@@ -68,7 +68,9 @@ const Routing = () => {
   if (role == "Manajemen") {
     return (
       <Routes>
-        <Route path="/" element={<ManajemenDash />} />
+        <Route path="/" element={<Dashboard />}>
+          <Route index element={<HomeDashboard />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     );
