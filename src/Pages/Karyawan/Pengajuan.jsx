@@ -18,7 +18,7 @@ const Pengajuan = () => {
   const onSubmit = (data) => {
     let body = {
       ...data,
-      nama: user.nama,
+      id_users: user.id,
     };
     console.log(body);
     reset();
@@ -34,6 +34,8 @@ const Pengajuan = () => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5 w-full max-w-2xl p-10 justify-center items-center bg-primary rounded-xl drop-shadow-2xl"
+            data-aos="zoom-in"
+            data-aos-duration="1000"
           >
             <input
               {...register("tanggal", { required: "Tanggal wajib diisi" })}

@@ -11,21 +11,25 @@ const Home = () => {
           gambar="./money.png"
           judul="Total Dana"
           title="Jumlah dana yang terkumpul"
+          aos="fade-up"
         />
         <Card
           gambar="./pengajuan.png"
           judul="Pengajuan"
           title="Permintaan bantuan keryawan"
+          aos="fade-up"
         />
         <Card
           gambar="./laporan.png"
           judul="Laporan"
-          title="Riwayat Donasi untuk karyawan "
+          title="Riwayat Donasi untuk karyawan"
+          aos="fade-up"
         />
         <Card
           gambar="./kriteria.png"
           judul="Kriteria Bantuan"
           title="Syarat pengajuan donasi untuk karyawan"
+          aos="fade-up"
         />
       </div>
 
@@ -34,7 +38,13 @@ const Home = () => {
           Cara Untuk Melindungi Sesama
         </h1>
         <div className="flex bg-primary rounded-3xl drop-shadow-2xl px-5">
-          <img src="./Helping.gif" alt="Movie" className="hidden lg:block" />
+          <img
+            src="./Helping.gif"
+            alt="Movie"
+            className="hidden lg:block"
+            data-aos="fade-up"
+            data-aos-duration="900"
+          />
           <div className="card-body">
             <h2 className="lg:text-3xl text-2xl text-black font-bold">
               DOMPET AMAL
@@ -66,7 +76,11 @@ const Home = () => {
           Visi dan Misi
         </h1>
         <div className="grid lg:grid-cols-3 text-justify grid-cols-1">
-          <div className="text-tertiary">
+          <div
+            className="text-tertiary"
+            data-aos="fade-up"
+            data-aos-duration="900"
+          >
             <h1 className="font-bold mb-5 lg:text-xl text-lg text-center">
               Visi Dompet Amal Polibatam
             </h1>
@@ -79,8 +93,18 @@ const Home = () => {
               sosial mereka kepada sesama yang membutuhkan.
             </p>
           </div>
-          <img src="./Visi.gif" alt="visi&Misi" className="w-96 mx-auto" />
-          <div className="text-tertiary">
+          <img
+            src="./Visi.gif"
+            alt="visi&Misi"
+            className="w-96 mx-auto"
+            data-aos="fade-down"
+            data-aos-duration="900"
+          />
+          <div
+            className="text-tertiary"
+            data-aos="fade-up"
+            data-aos-duration="900"
+          >
             <h1 className="font-bold mb-5 lg:text-xl text-lg text-center">
               Misi Dompet Amal Polibatam
             </h1>
@@ -99,7 +123,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-16" data-aos="flip-up" data-aos-duration="900">
         <h1 className="lg:text-4xl text-2xl text-secondary text-center font-bold">
           Moto
         </h1>
@@ -113,7 +137,12 @@ const Home = () => {
           Hubungi Kami
         </h1>
         <div className="flex justify-around">
-          <div className="flex flex-col py-10 gap-4 items-center bg-primary rounded-3xl drop-shadow-2xl lg:w-1/2 w-full px-5">
+          <div
+            className="flex flex-col py-10 gap-4 items-center bg-primary rounded-3xl drop-shadow-2xl lg:w-1/2 w-full px-5"
+            data-aos="zoom-in"
+            data-aos-duration="900"
+            data-aos-easing="ease-in-sine"
+          >
             <h1 className="text-2xl text-black">Berikan Pesan</h1>
             <label className="form-control gap-1 w-full max-w-md">
               <span className="text-tertiary pl-1">Masukan Nama Lengkap</span>
