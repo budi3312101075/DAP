@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import Button from "../../Components/Atoms/Button";
 import { toast } from "react-toastify";
+import { MdOutlinePendingActions } from "react-icons/md";
 
 const Status = () => {
   const {
@@ -47,10 +48,16 @@ const Status = () => {
 
   // controller untuk pengajuan ulang
   const [nominal, setNominal] = useState(0);
+
   function removeCommaAndConvertToInt(nominal) {
-    const stringWithoutComma = nominal?.replace(/,/g, "");
-    const result = parseInt(stringWithoutComma, 10);
-    return result;
+    if (typeof nominal === "string") {
+      const stringWithoutComma = nominal.replace(/,/g, "");
+      const result = parseInt(stringWithoutComma, 10);
+      return result;
+    } else {
+      // Jika nominal bukan string, kembalikan nilai asli tanpa perubahan
+      return nominal;
+    }
   }
 
   const onSubmit = async (data) => {
@@ -114,11 +121,18 @@ const Status = () => {
                     <td>{data?.jenis_bantuan}</td>
                     <td>{data?.deskripsi}</td>
                     <td>
-                      <img
-                        className="w-14"
-                        src={`http://localhost:5000/public/bukti_transfer/${data?.bukti_transfer}`}
-                        alt="bukti transfer"
-                      />
+                      {!data?.bukti_transfer ? (
+                        <MdOutlinePendingActions
+                          size={30}
+                          className="mx-auto"
+                        />
+                      ) : (
+                        <img
+                          className="w-16"
+                          src={`http://localhost:5000/public/bukti_transfer/${data?.bukti_transfer}`}
+                          alt="bukti transfer belum ada"
+                        />
+                      )}
                     </td>
                     <td>{data?.status}</td>
                     <td>{data?.deskripsi_status}</td>
