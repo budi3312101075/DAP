@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../Components/Atoms/Button";
 import { detailUser, toRupiah } from "../../utils/helper";
-
+import axios from "axios";
+import { toast } from "react-toastify";
+import { NumericFormat } from "react-number-format";
 const Pengajuan = () => {
   const {
     register,
@@ -15,13 +17,42 @@ const Pengajuan = () => {
 
   const user = detailUser();
 
-  const onSubmit = (data) => {
-    let body = {
-      ...data,
-      id_users: user.id,
-    };
-    console.log(body);
-    reset();
+  const [nominal, setNominal] = useState(0);
+  function removeCommaAndConvertToInt(nominal) {
+    const stringWithoutComma = nominal?.replace(/,/g, "");
+    const result = parseInt(stringWithoutComma, 10);
+    return result;
+  }
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("tanggal", data.tanggal);
+    formData.append("nominal", removeCommaAndConvertToInt(nominal));
+    formData.append("deskripsi", data.deskripsi);
+    formData.append("jenis_bantuan", data.jenis_bantuan);
+    formData.append("bukti", data.bukti[0]);
+    formData.append("id_users", user.id);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/pengajuan",
+        formData, // Menggunakan FormData sebagai body
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // Handle response here, if needed
+      toast.success("Pengajuan berhasil dikirim");
+
+      // Reset the form after successful submission
+      reset();
+    } catch (error) {
+      toast.error("Pengajuan anda gagal untuk dikirim");
+      console.log("Error:", error.response.data);
+    }
   };
 
   return (
@@ -33,6 +64,7 @@ const Pengajuan = () => {
           </h1>
           <form
             onSubmit={handleSubmit(onSubmit)}
+            encType="multipart/form-data"
             className="flex flex-col gap-5 w-full max-w-2xl p-10 justify-center items-center bg-primary rounded-xl drop-shadow-2xl"
             data-aos="zoom-in"
             data-aos-duration="1000"
@@ -50,8 +82,17 @@ const Pengajuan = () => {
                 {errors.tanggal.message}
               </span>
             )}
-
-            <input
+            <NumericFormat
+              allowLeadingZeros
+              required={true}
+              thousandSeparator=","
+              onChange={(e) => {
+                setNominal(e.target.value);
+              }}
+              placeholder="Nominal yang ingin diajukan"
+              className={`input input-bordered w-full max-w-lg bg-primary border border-black text-black `}
+            />
+            {/* <input
               {...register("nominal", {
                 required: "Nominal wajib diisi",
                 pattern: {
@@ -68,8 +109,7 @@ const Pengajuan = () => {
               <span className="text-red-500 text-sm">
                 {errors.nominal.message}
               </span>
-            )}
-
+            )} */}
             <textarea
               {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
               placeholder="Deskripsi bantuan"
@@ -82,13 +122,12 @@ const Pengajuan = () => {
                 {errors.deskripsi.message}
               </span>
             )}
-
             <select
-              {...register("Jenis Bantuan", {
-                required: "Jenis bantuan wajib dipilih",
+              {...register("jenis_bantuan", {
+                required: "jenis_bantuan wajib dipilih",
               })}
               className={`select select-bordered w-full max-w-lg bg-primary border border-black text-black ${
-                errors["Jenis Bantuan"] && "input-error"
+                errors["jenis_bantuan"] && "input-error"
               }`}
             >
               <option disabled>Pilih Jenis Bantuan</option>
@@ -96,16 +135,14 @@ const Pengajuan = () => {
               <option value="Bantuan meninggal">Bantuan meninggal</option>
               <option value="Bantuan keguguran">Bantuan keguguran</option>
             </select>
-            {errors["Jenis Bantuan"] && (
+            {errors["jenis_bantuan"] && (
               <span className="text-red-500 text-sm">
-                {errors["Jenis Bantuan"].message}
+                {errors["jenis_bantuan"].message}
               </span>
             )}
-
             <input
               {...register("bukti", { required: "Bukti wajib diupload" })}
               type="file"
-              required={true}
               className={`file-input file-input-bordered w-full max-w-lg bg-primary border border-black text-black${
                 errors.bukti && "input-error"
               }`}
@@ -115,7 +152,6 @@ const Pengajuan = () => {
                 {errors.bukti.message}
               </span>
             )}
-
             <Button
               type="submit"
               style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
