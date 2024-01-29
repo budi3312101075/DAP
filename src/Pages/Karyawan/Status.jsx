@@ -62,7 +62,7 @@ const Status = () => {
 
   const onSubmit = async (data) => {
     const response = await axios.patch(
-      `http://localhost:5000/updatePengajuan/${currentData.id_pengajuan}`,
+      `http://localhost:5000/updatePengajuan/${currentData.id}`,
       {
         nominal: removeCommaAndConvertToInt(nominal),
         deskripsi: data?.deskripsi,
