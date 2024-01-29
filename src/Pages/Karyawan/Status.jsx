@@ -129,8 +129,8 @@ const Status = () => {
                       ) : (
                         <img
                           className="w-16"
-                          src={`http://localhost:5000/public/bukti_transfer/${data?.bukti_transfer}`}
-                          alt="bukti transfer belum ada"
+                          src={`http://localhost:5000/${data?.bukti_transfer}`}
+                          alt="bukti transfer"
                         />
                       )}
                     </td>

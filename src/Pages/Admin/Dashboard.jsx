@@ -27,6 +27,7 @@ import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 import { CgNotes } from "react-icons/cg";
 import { useAuth } from "../../Store/Auth";
 import axios from "axios";
+import { useMediaQuery } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -98,7 +99,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mendeteksi apakah layar adalah layar seluler
+
+  const [open, setOpen] = React.useState(!isMobile); // Set nilai awal open berdasarkan deteksi layar
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,7 +115,7 @@ export default function Sidebar() {
 
   const user = detailUser();
   const role = user.role;
-  console.log(role);
+  // console.log(role);
 
   const { loginResponse, setLoginResponse, setLogOut } = useAuth();
   const handleLogout = async () => {
@@ -205,7 +208,7 @@ export default function Sidebar() {
   ]);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", backgroundColor: "#f1f1ea" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
