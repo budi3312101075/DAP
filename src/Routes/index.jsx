@@ -62,6 +62,7 @@ const Routing = () => {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<HomeDashboard />} />
+          <Route path="Daftar-pengajuan" element={<DaftarPengajuan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

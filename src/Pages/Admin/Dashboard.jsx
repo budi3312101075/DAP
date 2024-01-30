@@ -99,9 +99,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mendeteksi apakah layar adalah layar seluler
+  // const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mendeteksi apakah layar adalah layar seluler
 
-  const [open, setOpen] = React.useState(!isMobile); // Set nilai awal open berdasarkan deteksi layar
+  const [open, setOpen] = React.useState(false); // Set nilai awal open berdasarkan deteksi layar
 
   const handleDrawerOpen = () => {
     setOpen(true);

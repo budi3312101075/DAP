@@ -1,11 +1,11 @@
 import React from "react";
 
-const Modals = ({ children }) => {
+const Modals = ({ children, title }) => {
   return (
     <>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
-          <h3 className="font-bold text-lg">Ajukan Ulang</h3>
+          <h3 className="font-bold text-lg">{title}</h3>
           {children}
           <button
             className="btn"

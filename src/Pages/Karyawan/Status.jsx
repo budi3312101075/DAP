@@ -166,7 +166,7 @@ const Status = () => {
       </div>
 
       {/* Modal */}
-      <Modals>
+      <Modals title="Ajukan Ulang">
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
