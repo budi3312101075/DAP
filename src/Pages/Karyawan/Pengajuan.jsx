@@ -29,7 +29,7 @@ const Pengajuan = () => {
     formData.append("tanggal", data.tanggal);
     formData.append("nominal", removeCommaAndConvertToInt(nominal));
     formData.append("deskripsi", data.deskripsi);
-    formData.append("jenis_bantuan", data.jenis_bantuan);
+    formData.append("id_kriteria", data.id_kriteria);
     formData.append("bukti", data.bukti[0]);
     formData.append("id_users", user.id);
 
@@ -123,21 +123,21 @@ const Pengajuan = () => {
               </span>
             )}
             <select
-              {...register("jenis_bantuan", {
-                required: "jenis_bantuan wajib dipilih",
+              {...register("id_kriteria", {
+                required: "id_kriteria wajib dipilih",
               })}
               className={`select select-bordered w-full max-w-lg bg-primary border border-black text-black ${
-                errors["jenis_bantuan"] && "input-error"
+                errors["id_kriteria"] && "input-error"
               }`}
             >
               <option disabled>Pilih Jenis Bantuan</option>
-              <option value="Bantuan menikah">Bantuan menikah</option>
+              <option value="1">Bantuan menikah</option>
               <option value="Bantuan meninggal">Bantuan meninggal</option>
               <option value="Bantuan keguguran">Bantuan keguguran</option>
             </select>
-            {errors["jenis_bantuan"] && (
+            {errors["id_kriteria"] && (
               <span className="text-red-500 text-sm">
-                {errors["jenis_bantuan"].message}
+                {errors["id_kriteria"].message}
               </span>
             )}
             <input

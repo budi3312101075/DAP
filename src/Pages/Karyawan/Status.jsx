@@ -66,7 +66,7 @@ const Status = () => {
       {
         nominal: removeCommaAndConvertToInt(nominal),
         deskripsi: data?.deskripsi,
-        jenis_bantuan: data?.jenis_bantuan,
+        id_kriteria: data?.id_kriteria,
         bukti: data?.bukti[0],
       },
       {
@@ -84,7 +84,7 @@ const Status = () => {
 
   useEffect(() => {
     setValue("deskripsi", currentData?.deskripsi);
-    setValue("jenis_bantuan", currentData?.jenis_bantuan);
+    setValue("id_kriteria", currentData?.id_kriteria);
     setValue("bukti", currentData?.bukti);
     setNominal(currentData?.nominal);
   }, [currentData]);
@@ -212,7 +212,7 @@ const Status = () => {
 
           {/* dwidwidhiwdhiwdh */}
           <select
-            {...register("jenis_bantuan", {
+            {...register("id_kriteria", {
               required: "jenis_bantuan wajib dipilih",
             })}
             className={`select select-bordered w-full bg-primary border border-black text-black${
@@ -220,9 +220,8 @@ const Status = () => {
             }`}
           >
             <option disabled>Pilih Jenis Bantuan</option>
-            <option value="Bantuan menikah">Bantuan menikah</option>
-            <option value="Bantuan meninggal">Bantuan meninggal</option>
-            <option value="Bantuan keguguran">Bantuan keguguran</option>
+            <option value="1">Bantuan menikah</option>
+            <option value="2">Bantuan meninggal</option>
           </select>
           {errors["jenis_bantuan"] && (
             <span className="text-red-500 text-sm">
