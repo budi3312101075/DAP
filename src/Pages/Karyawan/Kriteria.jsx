@@ -1,8 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { toRupiah } from "../../utils/helper";
 
 const Kriteria = () => {
+  const [data, setData] = useState();
+
+  const dataKriteria = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/kriteria");
+      setData(response.data.data);
+    } catch (error) {
+      console.log("Error:", error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    dataKriteria();
+  }, []);
+
   return (
-    <div className="max-h-max p-12 bg-primary pt-24 font-poppins">
+    <div className="max-h-max p-12 bg-primary pt-24 font-poppins pb-36">
       <div className="flex flex-col justify-center items-center pt-10 gap-5 w-full">
         <h1 className="text-2xl lg:text-3xl text-black font-semibold">
           Kriteria Penerima
@@ -12,58 +30,25 @@ const Kriteria = () => {
             {/* head */}
             <thead className="text-black">
               <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
+                <th>No</th>
+                <th>Jenis Bantuan</th>
+                <th>Maksimal Nominal</th>
+                <th>Keterangan</th>
+                <th>Dokumen</th>
+                <th>Batas Waktu</th>
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
-              <tr>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-              </tr>
-              {/* row 2 */}
-              <tr>
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-              </tr>
-              {/* row 3 */}
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
+              {data?.map((data, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{data?.jenis_bantuan}</td>
+                  <td>{toRupiah(data?.nominal)}</td>
+                  <td>{data.keterangan}</td>
+                  <td>{data.dokumen}</td>
+                  <td>{data.batas_waktu}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

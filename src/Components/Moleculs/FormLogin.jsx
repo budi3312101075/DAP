@@ -39,6 +39,7 @@ const FormLogin = () => {
   return (
     <div>
       <form
+        autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col px-10 mt-5 text-black gap-4"
       >

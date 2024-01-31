@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modals = ({ children, title }) => {
+const Modals = ({ children, title, resets }) => {
   return (
     <>
       <dialog id="my_modal_1" className="modal">
@@ -9,7 +9,10 @@ const Modals = ({ children, title }) => {
           {children}
           <button
             className="btn"
-            onClick={() => document.getElementById("my_modal_1").close()}
+            onClick={() => {
+              document.getElementById("my_modal_1").close();
+              resets();
+            }}
           >
             Close
           </button>

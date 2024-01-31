@@ -15,3 +15,7 @@ export const toRupiah = (IDR) => {
 
   return rupiah;
 };
+
+export const hari = (hari) => {
+  return `${hari} Hari`;
+};

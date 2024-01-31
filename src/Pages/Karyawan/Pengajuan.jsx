@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../Components/Atoms/Button";
 import { detailUser, toRupiah } from "../../utils/helper";
@@ -23,6 +23,22 @@ const Pengajuan = () => {
     const result = parseInt(stringWithoutComma, 10);
     return result;
   }
+
+  const [bantuan, setBantuan] = useState();
+  // console.log(bantuan);
+
+  const jenisBantuan = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/kriteria");
+      setBantuan(response.data.data);
+    } catch (error) {
+      console.log("Error:", error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    jenisBantuan();
+  }, []);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -92,24 +108,7 @@ const Pengajuan = () => {
               placeholder="Nominal yang ingin diajukan"
               className={`input input-bordered w-full max-w-lg bg-primary border border-black text-black `}
             />
-            {/* <input
-              {...register("nominal", {
-                required: "Nominal wajib diisi",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "Nominal hanya dapat berisi angka",
-                },
-              })}
-              placeholder="Nominal yang ingin diajukan"
-              className={`input input-bordered w-full max-w-lg bg-primary border border-black text-black ${
-                errors.nominal && "input-error"
-              }`}
-            />
-            {errors.nominal && (
-              <span className="text-red-500 text-sm">
-                {errors.nominal.message}
-              </span>
-            )} */}
+
             <textarea
               {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
               placeholder="Deskripsi bantuan"
@@ -122,6 +121,8 @@ const Pengajuan = () => {
                 {errors.deskripsi.message}
               </span>
             )}
+
+            {/* =================== */}
             <select
               {...register("id_kriteria", {
                 required: "id_kriteria wajib dipilih",
@@ -130,16 +131,21 @@ const Pengajuan = () => {
                 errors["id_kriteria"] && "input-error"
               }`}
             >
-              <option disabled>Pilih Jenis Bantuan</option>
-              <option value="1">Bantuan menikah</option>
-              <option value="Bantuan meninggal">Bantuan meninggal</option>
-              <option value="Bantuan keguguran">Bantuan keguguran</option>
+              <option disabled>Pilih Jenis Bantuan</option>;
+              {bantuan?.map((bantuan, index) => {
+                return (
+                  <option key={index} value={bantuan.id}>
+                    {bantuan.jenis_bantuan}
+                  </option>
+                );
+              })}
             </select>
             {errors["id_kriteria"] && (
               <span className="text-red-500 text-sm">
                 {errors["id_kriteria"].message}
               </span>
             )}
+            {/* =================== */}
             <input
               {...register("bukti", { required: "Bukti wajib diupload" })}
               type="file"

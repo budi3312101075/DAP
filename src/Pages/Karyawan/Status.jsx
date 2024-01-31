@@ -30,8 +30,6 @@ const Status = () => {
     return formattedDate;
   };
 
-  const currentDate = new Date().toISOString().split("T")[0];
-
   const statusPengajuan = async () => {
     try {
       const response = await axios.get("http://localhost:5000/pengajuanUsers");
@@ -42,8 +40,22 @@ const Status = () => {
     }
   };
 
+  // ============================================
+  const [bantuan, setBantuan] = useState();
+  // console.log(bantuan);
+  const jenisBantuan = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/kriteria");
+      setBantuan(response.data.data);
+    } catch (error) {
+      console.log("Error:", error.response.data);
+    }
+  };
+  // ==============================================
+
   useEffect(() => {
     statusPengajuan();
+    jenisBantuan();
   }, []);
 
   // controller untuk pengajuan ulang
@@ -137,7 +149,8 @@ const Status = () => {
                     <td>{data?.status}</td>
                     <td>{data?.deskripsi_status}</td>
                     <td>
-                      {data?.status === "selesai" ? (
+                      {data?.status === "selesai" ||
+                      data?.status === "tolak" ? (
                         <button className="p-1 bg-slate-500 px-5 rounded-xl">
                           No action
                         </button>
@@ -172,19 +185,6 @@ const Status = () => {
           encType="multipart/form-data"
           className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
         >
-          <input
-            {...register("tanggal", { required: "Tanggal wajib diisi" })}
-            type="date"
-            className={`input input-bordered w-full max-w-lg bg-primary border border-black hidden ${
-              errors.tanggal && "input-error"
-            }`}
-            defaultValue={currentDate}
-          />
-          {errors.tanggal && (
-            <span className="text-red-500 text-sm">
-              {errors.tanggal.message}
-            </span>
-          )}
           <NumericFormat
             defaultValue={currentData?.nominal}
             value={currentData?.nominal}
@@ -210,25 +210,31 @@ const Status = () => {
             </span>
           )}
 
-          {/* dwidwidhiwdhiwdh */}
+          {/* ============================== */}
           <select
             {...register("id_kriteria", {
               required: "jenis_bantuan wajib dipilih",
             })}
+            value={currentData?.jenis_bantuan}
             className={`select select-bordered w-full bg-primary border border-black text-black${
               errors["jenis_bantuan"] && "input-error"
             }`}
           >
-            <option disabled>Pilih Jenis Bantuan</option>
-            <option value="1">Bantuan menikah</option>
-            <option value="2">Bantuan meninggal</option>
+            <option disabled>Pilih Jenis Bantuan</option>;
+            {bantuan?.map((bantuan, index) => {
+              return (
+                <option key={index} value={bantuan.id}>
+                  {bantuan.jenis_bantuan}
+                </option>
+              );
+            })}
           </select>
           {errors["jenis_bantuan"] && (
             <span className="text-red-500 text-sm">
               {errors["jenis_bantuan"].message}
             </span>
           )}
-          {/*dwdwddwd  */}
+          {/*====================================  */}
 
           <input
             {...register("bukti", { required: "Bukti wajib diupload" })}
