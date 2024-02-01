@@ -66,7 +66,11 @@ const Pengajuan = () => {
       // Reset the form after successful submission
       reset();
     } catch (error) {
-      toast.error("Pengajuan anda gagal untuk dikirim");
+      if (error.response.status === 422) {
+        toast.error("Pengajuan ditolak karena masih dalam cooldown");
+      } else {
+        toast.error("Pengajuan anda gagal untuk dikirim");
+      }
       console.log("Error:", error.response.data);
     }
   };
