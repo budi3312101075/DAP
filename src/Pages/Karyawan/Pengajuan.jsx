@@ -125,7 +125,7 @@ const Pengajuan = () => {
             {/* =================== */}
             <select
               {...register("id_kriteria", {
-                required: "id_kriteria wajib dipilih",
+                required: "jenis bantuan wajib dipilih",
               })}
               className={`select select-bordered w-full max-w-lg bg-primary border border-black text-black ${
                 errors["id_kriteria"] && "input-error"

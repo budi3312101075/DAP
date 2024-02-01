@@ -222,7 +222,7 @@ const KriteriaPengajuan = () => {
             {...registers("keterangans", {
               required: "keterangan wajib diisi",
             })}
-            placeholder="keterangas"
+            placeholder="keterangan"
             className={`textarea textarea-bordered w-full bg-primary border border-black text-black  ${
               errorss?.keterangans && "input-error"
             }`}

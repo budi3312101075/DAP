@@ -188,7 +188,7 @@ const DaftarPengajuan = () => {
             {...register("deskripsi_status", {
               required: "deskripsi status wajib diisi",
             })}
-            placeholder="deskripsi_status bantuan"
+            placeholder="deskripsi status bantuan"
             className={`textarea textarea-bordered w-full bg-primary border border-black text-black  ${
               errors.deskripsi_status && "input-error"
             }`}
