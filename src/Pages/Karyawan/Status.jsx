@@ -179,7 +179,7 @@ const Status = () => {
       </div>
 
       {/* Modal */}
-      <Modals title="Ajukan Ulang">
+      <Modals title="Ajukan Ulang" reset={reset}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"

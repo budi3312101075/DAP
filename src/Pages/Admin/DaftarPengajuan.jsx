@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { toRupiah } from "../../utils/helper";
+import { toRupiah, formatDate } from "../../utils/helper";
 import { useForm } from "react-hook-form";
 import Modals from "../../Components/Moleculs/Modals";
 import Button from "../../Components/Atoms/Button";
@@ -78,15 +78,6 @@ const DaftarPengajuan = () => {
     pengajuan();
   }, []);
 
-  const formatDate = (rawDate) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    const formattedDate = new Date(rawDate).toLocaleDateString(
-      "id-ID",
-      options
-    );
-    return formattedDate;
-  };
-
   return (
     <>
       <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8 sm:p-8 font-poppins">
@@ -158,7 +149,7 @@ const DaftarPengajuan = () => {
           </table>
         </div>
       </div>
-      <Modals title="Konfirmasi Pengajuan">
+      <Modals title="Konfirmasi Pengajuan" reset={reset}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"

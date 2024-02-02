@@ -19,3 +19,9 @@ export const toRupiah = (IDR) => {
 export const hari = (hari) => {
   return `${hari} Hari`;
 };
+
+export const formatDate = (rawDate) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = new Date(rawDate).toLocaleDateString("id-ID", options);
+  return formattedDate;
+};

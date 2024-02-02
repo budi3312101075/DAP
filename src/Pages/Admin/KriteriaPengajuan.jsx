@@ -51,7 +51,7 @@ const KriteriaPengajuan = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      // console.log(data);
       const response = await axios.post("http://localhost:5000/kriteria", {
         jenis_bantuan: data.jenis_bantuans,
         nominal: removeCommaAndConvertToInt(nominal),
@@ -182,7 +182,7 @@ const KriteriaPengajuan = () => {
       </div>
 
       {/* tambah modal */}
-      <Modals title={"Tambah Kriteria"} resets={resets}>
+      <Modals title={"Tambah Kriteria"} reset={resets}>
         <form
           onSubmit={handleSubmits(onSubmit)}
           className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
