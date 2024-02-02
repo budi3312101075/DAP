@@ -215,7 +215,7 @@ const Status = () => {
             {...register("id_kriteria", {
               required: "jenis_bantuan wajib dipilih",
             })}
-            value={currentData?.jenis_bantuan}
+            value={currentData?.id_kriteria}
             className={`select select-bordered w-full bg-primary border border-black text-black${
               errors["jenis_bantuan"] && "input-error"
             }`}
