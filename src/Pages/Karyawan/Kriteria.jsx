@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { toRupiah } from "../../utils/helper";
+import { toRupiah, hari } from "../../utils/helper";
 
 const Kriteria = () => {
   const [data, setData] = useState();
@@ -46,7 +46,7 @@ const Kriteria = () => {
                   <td>{toRupiah(data?.nominal)}</td>
                   <td>{data.keterangan}</td>
                   <td>{data.dokumen}</td>
-                  <td>{data.batas_waktu}</td>
+                  <td>{hari(data.batas_waktu)}</td>
                 </tr>
               ))}
             </tbody>
