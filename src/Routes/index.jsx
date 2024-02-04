@@ -16,6 +16,7 @@ import { jwtDecode } from "jwt-decode";
 import DaftarPengajuan from "../Pages/Admin/DaftarPengajuan";
 import KriteriaPengajuan from "../Pages/Admin/KriteriaPengajuan";
 import DaftarKeuangan from "../Pages/Admin/DaftarKeuangan";
+import DaftarUser from "../Pages/Admin/DaftarUser";
 
 const Routing = () => {
   const { loginResponse } = useAuth();
@@ -67,6 +68,7 @@ const Routing = () => {
           <Route path="Daftar-pengajuan" element={<DaftarPengajuan />} />
           <Route path="Kriteria" element={<KriteriaPengajuan />} />
           <Route path="keuangan" element={<DaftarKeuangan />} />
+          <Route path="daftar-user" element={<DaftarUser />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

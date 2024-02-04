@@ -186,7 +186,7 @@ export default function Sidebar() {
     },
     {
       id: 6,
-      navigasi: "/Daftar-user",
+      navigasi: "/daftar-user",
       nama: "Daftar User",
       icon: <FaUsersRectangle size={23} className="text-gray-600" />,
     },
