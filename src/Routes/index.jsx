@@ -17,6 +17,8 @@ import DaftarPengajuan from "../Pages/Admin/DaftarPengajuan";
 import KriteriaPengajuan from "../Pages/Admin/KriteriaPengajuan";
 import DaftarKeuangan from "../Pages/Admin/DaftarKeuangan";
 import DaftarUser from "../Pages/Admin/DaftarUser";
+import Laporan from "../Pages/Admin/Laporan";
+import DataLaporan from "../Components/Moleculs/DataLaporan";
 
 const Routing = () => {
   const { loginResponse } = useAuth();
@@ -69,6 +71,8 @@ const Routing = () => {
           <Route path="Kriteria" element={<KriteriaPengajuan />} />
           <Route path="keuangan" element={<DaftarKeuangan />} />
           <Route path="daftar-user" element={<DaftarUser />} />
+          <Route path="laporan" element={<Laporan />} />
+          <Route path="laporan1" element={<DataLaporan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
