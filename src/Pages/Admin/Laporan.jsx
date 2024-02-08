@@ -18,7 +18,7 @@ const Laporan = () => {
   });
   // console.log(filter);
 
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const { toPDF, targetRef } = usePDF({ filename: "Data-pengajuan.pdf" });
   const tableRef = useRef(null);
   const [filteredData, setFilteredData] = useState([]);
   const [showDataLaporan, setShowDataLaporan] = useState(false);
@@ -79,28 +79,6 @@ const Laporan = () => {
       setShowDataLaporan(false);
     }
   }, [showDataLaporan]);
-
-  // const filteredData = data
-  //   ? data.filter((data) => {
-  //       // Logika filter berdasarkan kriteria tertentu
-  //       const isJenisMatch =
-  //         !filter.jenis_bantuan ||
-  //         data.jenis_bantuan
-  //           .toLowerCase()
-  //           .includes(filter.jenis_bantuan.toLowerCase());
-  //       const isNamaMatch =
-  //         !filter.nama ||
-  //         data.nama.toLowerCase().includes(filter.nama.toLowerCase());
-  //       const isTanggalMatch =
-  //         (!filter.tanggalAwal || data.tanggal >= filter.tanggalAwal) &&
-  //         (!filter.tanggalAkhir || data.tanggal <= filter.tanggalAkhir);
-  //       const isTahunMatch =
-  //         !filter.tahun || data.tanggal.includes(filter.tahun);
-  //       return isTanggalMatch && isTahunMatch && isJenisMatch && isNamaMatch;
-  //     })
-  //   : [];
-
-  // console.log(filteredData);
 
   return (
     <>

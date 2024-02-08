@@ -43,7 +43,7 @@ const DaftarUser = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post("http://localhost:5000/Users", data);
-      toast.success("Kriteria berhasil dibuat");
+      toast.success("User berhasil dibuat");
       reset();
       getUser();
       document.getElementById("my_modal_1").close();

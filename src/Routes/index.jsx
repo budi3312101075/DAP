@@ -19,6 +19,7 @@ import DaftarKeuangan from "../Pages/Admin/DaftarKeuangan";
 import DaftarUser from "../Pages/Admin/DaftarUser";
 import Laporan from "../Pages/Admin/Laporan";
 import DataLaporan from "../Components/Moleculs/DataLaporan";
+import LaporanKaryawan from "../Pages/Karyawan/LaporanKaryawan";
 
 const Routing = () => {
   const { loginResponse } = useAuth();
@@ -46,6 +47,7 @@ const Routing = () => {
           <Route path="/pengajuan" element={<Pengajuan />} />
           <Route path="/Kriteria" element={<Kriteria />} />
           <Route path="/Status" element={<Status />} />
+          <Route path="/laporan" element={<LaporanKaryawan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -57,6 +59,8 @@ const Routing = () => {
         <Route path="/" element={<Dashboard />}>
           <Route index element={<HomeDashboard />} />
           <Route path="Daftar-pengajuan" element={<DaftarPengajuan />} />
+          <Route path="keuangan" element={<DaftarKeuangan />} />
+          <Route path="laporan" element={<Laporan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -72,7 +76,6 @@ const Routing = () => {
           <Route path="keuangan" element={<DaftarKeuangan />} />
           <Route path="daftar-user" element={<DaftarUser />} />
           <Route path="laporan" element={<Laporan />} />
-          <Route path="laporan1" element={<DataLaporan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -83,6 +86,7 @@ const Routing = () => {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<HomeDashboard />} />
+          <Route path="laporan" element={<Laporan />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
