@@ -29,7 +29,7 @@ const Kriteria = () => {
           <table className="table">
             {/* head */}
             <thead className="text-black">
-              <tr>
+              <tr className="bg-gray-500 text-black">
                 <th>No</th>
                 <th>Jenis Bantuan</th>
                 <th>Maksimal Nominal</th>

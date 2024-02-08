@@ -20,6 +20,7 @@ import DaftarUser from "../Pages/Admin/DaftarUser";
 import Laporan from "../Pages/Admin/Laporan";
 import DataLaporan from "../Components/Moleculs/DataLaporan";
 import LaporanKaryawan from "../Pages/Karyawan/LaporanKaryawan";
+import DataLaporanKaryawan from "../Components/Moleculs/DataLaporanKaryawan";
 
 const Routing = () => {
   const { loginResponse } = useAuth();
