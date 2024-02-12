@@ -5,6 +5,9 @@ import { detailUser, toRupiah } from "../../utils/helper";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { NumericFormat } from "react-number-format";
+import Swal from "sweetalert2"; // Tambahkan SweetAlert
+import "sweetalert2/dist/sweetalert2.css";
+
 const Pengajuan = () => {
   const {
     register,
@@ -41,37 +44,49 @@ const Pengajuan = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("tanggal", data.tanggal);
-    formData.append("nominal", removeCommaAndConvertToInt(nominal));
-    formData.append("deskripsi", data.deskripsi);
-    formData.append("id_kriteria", data.id_kriteria);
-    formData.append("bukti", data.bukti[0]);
-    formData.append("id_users", user.id);
+    const isConfirmed = await Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak dapat membatalkan pengajuan setelah dikirim.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, kirim pengajuan!",
+    });
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/pengajuan",
-        formData, // Menggunakan FormData sebagai body
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    if (isConfirmed.isConfirmed) {
+      const formData = new FormData();
+      formData.append("tanggal", data.tanggal);
+      formData.append("nominal", removeCommaAndConvertToInt(nominal));
+      formData.append("deskripsi", data.deskripsi);
+      formData.append("id_kriteria", data.id_kriteria);
+      formData.append("bukti", data.bukti[0]);
+      formData.append("id_users", user.id);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/pengajuan",
+          formData, // Menggunakan FormData sebagai body
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        // Handle response here, if needed
+        toast.success("Pengajuan berhasil dikirim");
+
+        // Reset the form after successful submission
+        reset();
+      } catch (error) {
+        if (error.response.status === 422) {
+          toast.error("Pengajuan ditolak karena masih dalam cooldown");
+        } else {
+          toast.error("Pengajuan anda gagal untuk dikirim");
         }
-      );
-
-      // Handle response here, if needed
-      toast.success("Pengajuan berhasil dikirim");
-
-      // Reset the form after successful submission
-      reset();
-    } catch (error) {
-      if (error.response.status === 422) {
-        toast.error("Pengajuan ditolak karena masih dalam cooldown");
-      } else {
-        toast.error("Pengajuan anda gagal untuk dikirim");
+        console.log("Error:", error.response.data);
       }
-      console.log("Error:", error.response.data);
     }
   };
 
