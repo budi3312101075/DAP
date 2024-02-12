@@ -135,7 +135,7 @@ const Pengajuan = () => {
                 errors["id_kriteria"] && "input-error"
               }`}
             >
-              <option disabled>Pilih Jenis Bantuan</option>;
+              <option value="">Pilih Jenis Bantuan</option>
               {bantuan?.map((bantuan, index) => {
                 return (
                   <option key={index} value={bantuan.id}>
