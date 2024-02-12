@@ -21,7 +21,7 @@ const KriteriaPengajuan = () => {
     register: registers,
     handleSubmit: handleSubmits,
     reset: resets,
-    formState: { errorss },
+    formState,
   } = useForm();
 
   const [data, setData] = useState();
@@ -197,13 +197,13 @@ const KriteriaPengajuan = () => {
             })}
             type="text"
             className={`input input-bordered w-full bg-primary border border-black placeholder:text-tertiary ${
-              errorss?.jenis_bantuans && "input-error"
+              formState.errors.jenis_bantuans && "input-error"
             }`}
             placeholder="Masukan Jenis Bantuan"
           />
-          {errorss?.jenis_bantuans && (
+          {formState.errors.jenis_bantuans && (
             <span className="text-red-500 text-sm">
-              {errorss?.jenis_bantuans.message}
+              {formState.errors.jenis_bantuans.message}
             </span>
           )}
 
@@ -224,12 +224,12 @@ const KriteriaPengajuan = () => {
             })}
             placeholder="keterangan"
             className={`textarea textarea-bordered w-full bg-primary border border-black text-black  ${
-              errorss?.keterangans && "input-error"
+              formState.errors.keterangans && "input-error"
             }`}
           />
-          {errorss?.keterangan && (
+          {formState.errors.keterangan && (
             <span className="text-red-500 text-sm">
-              {errorss?.keterangans.message}
+              {formState.errors.keterangans.message}
             </span>
           )}
           <input
@@ -242,13 +242,13 @@ const KriteriaPengajuan = () => {
             })}
             type="text"
             className={`input input-bordered w-full bg-primary border border-black placeholder:text-tertiary ${
-              errorss?.dokumens && "input-error"
+              formState.errors.dokumens && "input-error"
             }`}
             placeholder="Masukan dokumen"
           />
-          {errorss?.dokumen && (
+          {formState.errors.dokumen && (
             <span className="text-red-500 text-sm">
-              {errorss?.dokumens.message}
+              {formState.errors.dokumens.message}
             </span>
           )}
 
@@ -262,18 +262,18 @@ const KriteriaPengajuan = () => {
             })}
             type="text"
             className={`input input-bordered w-full bg-primary border border-black placeholder:text-tertiary ${
-              errorss?.batas_waktus && "input-error"
+              formState.errors.batas_waktus && "input-error"
             }`}
             placeholder="Masukan batas waktu pengajuan"
           />
-          {errorss?.batas_waktus && (
+          {formState.errors.batas_waktus && (
             <span className="text-red-500 text-sm">
-              {errorss?.batas_waktus.message}
+              {formState.errors.batas_waktus.message}
             </span>
           )}
           <Button
             type="submit"
-            style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
+            style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
             isi="Kirim"
           />
         </form>
