@@ -91,7 +91,7 @@ const Status = () => {
       toast.success("Pengajuan Berhasil diajukan ulang");
     }
     statusPengajuan();
-    document.getElementById("my_modal_1").close();
+    document.getElementById("my_modal_3").close();
   };
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const Status = () => {
                         />
                       ) : (
                         <img
-                          className="w-16"
+                          className="w-16 mx-auto"
                           src={`http://localhost:5000/${data?.bukti_transfer}`}
                           alt="bukti transfer"
                         />
@@ -159,7 +159,7 @@ const Status = () => {
                           className="p-1 bg-yellow-500 px-2 rounded-xl"
                           onClick={() => {
                             setCurrentData(data);
-                            document.getElementById("my_modal_1").showModal();
+                            document.getElementById("my_modal_3").showModal();
                           }}
                         >
                           Ajukan ulang
@@ -179,80 +179,85 @@ const Status = () => {
       </div>
 
       {/* Modal */}
-      <Modals title="Ajukan Ulang" reset={reset}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          encType="multipart/form-data"
-          className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
-        >
-          <NumericFormat
-            defaultValue={currentData?.nominal}
-            value={currentData?.nominal}
-            allowLeadingZeros
-            required={true}
-            thousandSeparator=","
-            onChange={(e) => {
-              setNominal(e.target.value);
-            }}
-            placeholder="Nominal yang ingin diajukan"
-            className={`input input-bordered w-full bg-primary border border-black text-black `}
-          />
-          <textarea
-            {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
-            placeholder="Deskripsi bantuan"
-            className={`textarea textarea-bordered w-full bg-primary border border-black text-black  ${
-              errors.deskripsi && "input-error"
-            }`}
-          />
-          {errors.deskripsi && (
-            <span className="text-red-500 text-sm">
-              {errors.deskripsi.message}
-            </span>
-          )}
-
-          {/* ============================== */}
-          <select
-            {...register("id_kriteria", {
-              required: "jenis_bantuan wajib dipilih",
-            })}
-            value={currentData?.id_kriteria}
-            className={`select select-bordered w-full bg-primary border border-black text-black${
-              errors["jenis_bantuan"] && "input-error"
-            }`}
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
+          <h3 className="font-bold text-lg">Ajukan Ulang</h3>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            encType="multipart/form-data"
+            className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
           >
-            <option disabled>Pilih Jenis Bantuan</option>;
-            {bantuan?.map((bantuan, index) => {
-              return (
-                <option key={index} value={bantuan.id}>
-                  {bantuan.jenis_bantuan}
-                </option>
-              );
-            })}
-          </select>
-          {errors["jenis_bantuan"] && (
-            <span className="text-red-500 text-sm">
-              {errors["jenis_bantuan"].message}
-            </span>
-          )}
-          {/*====================================  */}
+            <NumericFormat
+              defaultValue={currentData?.nominal}
+              value={currentData?.nominal}
+              allowLeadingZeros
+              required={true}
+              thousandSeparator=","
+              onChange={(e) => {
+                setNominal(e.target.value);
+              }}
+              placeholder="Nominal yang ingin diajukan"
+              className={`input input-bordered w-full bg-primary border border-black text-black `}
+            />
+            <textarea
+              {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
+              placeholder="Deskripsi bantuan"
+              className={`textarea textarea-bordered w-full bg-primary border border-black text-black  ${
+                errors.deskripsi && "input-error"
+              }`}
+            />
+            {errors.deskripsi && (
+              <span className="text-red-500 text-sm">
+                {errors.deskripsi.message}
+              </span>
+            )}
 
-          <input
-            {...register("bukti", { required: "Bukti wajib diupload" })}
-            type="file"
-            className={`file-input file-input-bordered w-full bg-primary border border-black text-black${
-              errors.bukti && "input-error"
-            }`}
-          />
-          {errors.bukti && (
-            <span className="text-red-500 text-sm">{errors.bukti.message}</span>
-          )}
-          <Button
-            type="submit"
-            style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
-            isi="Kirim"
-          />
-        </form>
-      </Modals>
+            {/* ============================== */}
+            <select
+              {...register("id_kriteria", {
+                required: "jenis bantuan wajib dipilih",
+              })}
+              value={currentData?.id_kriteria}
+              className={`select select-bordered w-full bg-primary border border-black text-black${
+                errors["id_kriteria"] && "input-error"
+              }`}
+            >
+              <option disabled>Pilih Jenis Bantuan</option>;
+              {bantuan?.map((bantuan, index) => {
+                return (
+                  <option key={index} value={bantuan.id}>
+                    {bantuan.jenis_bantuan}
+                  </option>
+                );
+              })}
+            </select>
+            {errors["id_kriteria"] && (
+              <span className="text-red-500 text-sm">
+                {errors["id_kriteria"].message}
+              </span>
+            )}
+            {/*====================================  */}
+
+            <input
+              {...register("bukti", { required: "Bukti wajib diupload" })}
+              type="file"
+              className={`file-input file-input-bordered w-full bg-primary border border-black text-black${
+                errors.bukti && "input-error"
+              }`}
+            />
+            {errors.bukti && (
+              <span className="text-red-500 text-sm">
+                {errors.bukti.message}
+              </span>
+            )}
+            <Button
+              type="submit"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
+              isi="Kirim"
+            />
+          </form>
+        </div>
+      </dialog>
     </>
   );
 };
