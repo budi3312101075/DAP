@@ -31,7 +31,7 @@ const FormLogin = () => {
         toast.success("Selamat Datang");
       }
     } catch (error) {
-      toast.error("Email atau password salah");
+      toast.error(error.response.data.msg);
     }
   };
 

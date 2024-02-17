@@ -4,7 +4,12 @@ const Hero = () => {
   return (
     <>
       <div className="hero-content max-h-max pb-24 justify-between flex-col lg:flex-row-reverse bg-secondary rounded-3xl max-w-full text-white font-poppins">
-        <img src="./Hero.png" className="max-w-2xl  hidden lg:block" />
+        <img
+          src="./Hero.png"
+          className="xl:max-w-2xl lg:max-w-lg  hidden lg:block"
+          data-aos="zoom-in-left"
+          data-aos-duration="1000"
+        />
         <div className="max-w-lg  mx-auto">
           <h1 className="lg:text-5xl text-3xl font-bold">
             DOMPET AMAL POLIBATAM

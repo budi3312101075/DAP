@@ -33,7 +33,7 @@ const Login = () => {
       <div className="flex-col items-center justify-center hidden w-full min-h-screen gap-6 md:flex md:w-1/2 bg-secondary">
         <img src="./login.gif" alt="login" className="w-80" />
         <h1 className="text-2xl lg:text-3xl font-bold text-center text-white ">
-          “Bersama bergabagi, bersama sejahtera”
+          “Bersama berbagi, bersama sejahtera”
         </h1>
       </div>
     </div>

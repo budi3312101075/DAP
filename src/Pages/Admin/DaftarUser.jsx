@@ -157,7 +157,7 @@ const DaftarUser = () => {
                       className="bg-yellow-500 py-1 px-3 rounded-xl"
                       onClick={() => blockUser(data.id)}
                     >
-                      {data?.is_Blocked ? "Unblock" : "block"}
+                      {data?.is_Blocked ? "Unblock" : "Block"}
                     </button>
                     <button
                       className={`bg-yellow-500 py-1 px-3 rounded-xl ${

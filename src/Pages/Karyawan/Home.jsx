@@ -1,35 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Hero from "../../Components/Moleculs/Hero";
 import Card from "../../Components/Moleculs/Card";
+import { useAuth } from "../../Store/Auth";
+import { toRupiah } from "../../utils/helper";
+import axios from "axios";
 
 const Home = () => {
+  const { loginResponse } = useAuth();
+  const [totalDana, setTotalDana] = useState(0);
+
+  const getDana = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/totalDana");
+      setTotalDana(response.data.totalDana);
+    } catch (error) {
+      console.error("Error:", error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    getDana();
+  }, []);
+
   return (
     <div className="max-h-max p-12 bg-primary pt-20 font-poppins" id="beranda">
       <Hero />
-      <div className="flex flex-col gap-16 items-center lg:flex-row lg:gap-20 lg:justify-center">
+      <div className="flex flex-col xl:gap-20 lg:gap-5 gap-16 items-center lg:flex-row lg:justify-center">
         <Card
           gambar="./money.png"
           judul="Total Dana"
-          title="Jumlah dana yang terkumpul"
-          aos="fade-up"
+          title={
+            loginResponse ? toRupiah(totalDana) : "Jumlah dana yang terkumpul"
+          }
+          style={loginResponse ? "py-2" : ""}
         />
         <Card
           gambar="./pengajuan.png"
           judul="Pengajuan"
           title="Permintaan bantuan keryawan"
-          aos="fade-up"
+          to={loginResponse ? "/pengajuan" : "/"}
         />
         <Card
           gambar="./laporan.png"
           judul="Laporan"
           title="Riwayat Donasi untuk karyawan"
-          aos="fade-up"
+          to={loginResponse ? "/laporan" : "/"}
         />
         <Card
           gambar="./kriteria.png"
           judul="Kriteria Bantuan"
           title="Syarat pengajuan donasi untuk karyawan"
-          aos="fade-up"
+          style1="text-lg"
+          to={loginResponse ? "/kriteria" : "/"}
         />
       </div>
 
@@ -128,7 +150,7 @@ const Home = () => {
           Moto
         </h1>
         <p className="text-tertiary text-center lg:text-2xl text-lg">
-          “Bersama bergabagi, bersama sejahtera”
+          “Bersama berbagi, bersama sejahtera”
         </p>
       </div>
 
