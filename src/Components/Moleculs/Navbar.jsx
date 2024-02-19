@@ -410,7 +410,7 @@ const Navbar = () => {
       {/* modal reset password */}
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
-          <h3 className="font-bold text-lg">Update Profile</h3>
+          <h3 className="font-bold text-lg">Reset Password</h3>
           <form
             onSubmit={handleSubmits(resetPassword)}
             className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"

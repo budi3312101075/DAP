@@ -27,7 +27,14 @@ import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 import { CgNotes } from "react-icons/cg";
 import { useAuth } from "../../Store/Auth";
 import axios from "axios";
+import { CgProfile } from "react-icons/cg";
 import { useMediaQuery } from "@mui/material";
+import { useForm } from "react-hook-form";
+import Button from "../../Components/Atoms/Button";
+import { toast } from "react-toastify";
+import { TbPassword } from "react-icons/tb";
+import { IoEyeSharp } from "react-icons/io5";
+import { AiFillEyeInvisible } from "react-icons/ai";
 
 const drawerWidth = 240;
 
@@ -98,10 +105,29 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Sidebar() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const {
+    register: registers,
+    handleSubmit: handleSubmits,
+    reset: resets,
+    formState,
+  } = useForm();
   const theme = useTheme();
   // const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mendeteksi apakah layar adalah layar seluler
 
   const [open, setOpen] = React.useState(false); // Set nilai awal open berdasarkan deteksi layar
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,7 +141,9 @@ export default function Sidebar() {
 
   const user = detailUser();
   const role = user.role;
-  // console.log(role);
+  // console.log(user.id);
+
+  const [currentUser, setCurrentUser] = React.useState({});
 
   const { loginResponse, setLoginResponse, setLogOut } = useAuth();
   const handleLogout = async () => {
@@ -125,6 +153,53 @@ export default function Sidebar() {
     setLogOut();
     // localStorage.clear();
   };
+
+  const getMe = async () => {
+    const response = await axios.get("http://localhost:5000/getMe");
+    setCurrentUser(response.data.data[0]);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/Users/${currentUser.id}`,
+        data
+      );
+      toast.success(response.data.msg);
+      getMe();
+      document.getElementById("my_modal_10").close();
+    } catch (error) {
+      toast.error(error.response.data.failed);
+      document.getElementById("my_modal_10").close();
+    }
+  };
+
+  const resetPassword = async (data) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/resetPassword/${currentUser.id}`,
+        data
+      );
+      getMe();
+      resets();
+      toast.success(response.data.msg);
+      document.getElementById("my_modal_20").close();
+    } catch (error) {
+      toast.error(error.response.data.msg);
+      resets();
+      document.getElementById("my_modal_20").close();
+    }
+  };
+
+  React.useEffect(() => {
+    setValue("username", currentUser?.username);
+    setValue("email", currentUser?.email);
+    setValue("no_telepon", currentUser?.no_telepon);
+  }, [currentUser, onSubmit]);
+
+  React.useEffect(() => {
+    getMe();
+  }, []);
 
   const [navAdmin, setNavAdmin] = React.useState([
     {
@@ -334,9 +409,63 @@ export default function Sidebar() {
           )}
         </List>
         <Divider />
-        {/* Button Logout Disini */}
+        {/* Button Disini */}
         <List>
           <ListItem sx={{ display: "block" }}>
+            {/* // button update profile == hidden saat superadmin*/}
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                display: role == "SuperAdmin" ? "none" : "",
+              }}
+              onClick={() => {
+                document.getElementById("my_modal_10").showModal();
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <CgProfile className="-ml-1 text-gray-600" size={25} />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Ubah Profile"}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+
+            {/* Button ganti password */}
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+              onClick={() => {
+                document.getElementById("my_modal_20").showModal();
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <TbPassword className="-ml-1 text-gray-600" size={25} />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Ganti Password"}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+
+            {/* button logout */}
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -362,6 +491,173 @@ export default function Sidebar() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
       </Box>
+      {/* modal untuk ubah profile */}
+      <dialog id="my_modal_10" className="modal">
+        <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
+          <h3 className="font-bold text-lg">Update Profile</h3>
+          <form
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-3 w-full justify-center items-center rounded-xl"
+          >
+            {errors.username && (
+              <span className="text-red-600 ">
+                Hanya huruf dan angka yang diperbolehkan untuk Username dan
+                tidak boleh spasi
+              </span>
+            )}
+            <div className="w-full">
+              <p className="pl-2 mb-1">Username</p>
+              <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+                <input
+                  type="text"
+                  className="w-full bg-[#f2f4f6] placeholder:text-tertiary"
+                  {...register("username", {
+                    required: true,
+                    maxLength: 20,
+                    pattern: /^[A-Za-z0-9]+$/i,
+                  })}
+                  placeholder="Masukan username"
+                />
+              </div>
+            </div>
+
+            {errors.email && (
+              <span className="text-red-600 ">
+                Harus berupa email yang valid
+              </span>
+            )}
+            <div className="w-full">
+              <p className="pl-2 mb-1">Email</p>
+              <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+                <input
+                  type="email"
+                  className="w-full bg-[#f2f4f6] placeholder:text-tertiary"
+                  {...register("email", {
+                    required: true,
+                    pattern:
+                      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/i,
+                  })}
+                  placeholder="Masukan email"
+                />
+              </div>
+            </div>
+
+            {errors.no_telepon && (
+              <span className="text-red-600 ">Hanya menerima angka</span>
+            )}
+            <div className="w-full">
+              <p className="pl-2 mb-1">Nomor Telepon</p>
+              <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+                <input
+                  type="text"
+                  className="w-full bg-[#f2f4f6] placeholder:text-tertiary"
+                  {...register("no_telepon", {
+                    required: true,
+                    maxLength: 20,
+                    pattern: /^[0-9]+$/i,
+                  })}
+                  placeholder="Masukan Nomor Telepon"
+                />
+              </div>
+            </div>
+            <Button
+              type="submit"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
+              isi="Kirim"
+            />
+          </form>
+          <button
+            className="px-4 py-2 bg-black rounded-lg text-white w-full "
+            onClick={() => {
+              document.getElementById("my_modal_10").close();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </dialog>
+      {/* modal untuk reset password*/}
+      <dialog id="my_modal_20" className="modal">
+        <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
+          <h3 className="font-bold text-lg">Reset Password</h3>
+          <form
+            onSubmit={handleSubmits(resetPassword)}
+            className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
+          >
+            {formState.errors.currentPassword && (
+              <span className="text-red-600">Password harus diisi.</span>
+            )}
+            <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...registers("currentPassword", { required: true })}
+                placeholder="Masukan password"
+                className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
+              />
+              {showPassword ? (
+                <AiFillEyeInvisible
+                  size={25}
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+              )}
+            </div>
+            {formState.errors.newPassword && (
+              <span className="text-red-600">Password harus diisi.</span>
+            )}
+            <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...registers("newPassword", { required: true })}
+                placeholder="Masukan password"
+                className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
+              />
+              {showPassword ? (
+                <AiFillEyeInvisible
+                  size={25}
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+              )}
+            </div>
+            {formState.errors.confirmPassword && (
+              <span className="text-red-600">Password harus diisi.</span>
+            )}
+            <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...registers("confirmPassword", { required: true })}
+                placeholder="Masukan password"
+                className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
+              />
+              {showPassword ? (
+                <AiFillEyeInvisible
+                  size={25}
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+              )}
+            </div>
+            <Button
+              type="submit"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
+              isi="Kirim"
+            />
+          </form>
+          <button
+            className="px-4 py-2 bg-black rounded-lg text-white w-full "
+            onClick={() => {
+              document.getElementById("my_modal_20").close();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </dialog>
     </Box>
   );
 }
