@@ -30,6 +30,7 @@ const DaftarPengajuan = () => {
       if (!requestBody.bukti_transfer) {
         toast.error("Bukti transfer harus diisi jika status sudah selesai");
         document.getElementById("my_modal_1").close();
+        reset();
         return;
       }
     }
@@ -45,6 +46,7 @@ const DaftarPengajuan = () => {
     );
     if (response.status === 200) {
       toast.success("Pengajuan Berhasil dikonfirmasi");
+      reset();
     }
     pengajuan();
     document.getElementById("my_modal_1").close();
@@ -165,6 +167,7 @@ const DaftarPengajuan = () => {
             }`}
           >
             <option disabled>Pilih Status</option>
+            <option value=""></option>
             <option value="selesai">Selesai</option>
             <option value="ditangguhkan">Ditangguhkan</option>
             <option value="tolak">Tolak</option>
@@ -197,7 +200,7 @@ const DaftarPengajuan = () => {
           />
           <Button
             type="submit"
-            style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
+            style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
             isi="Kirim"
           />
         </form>

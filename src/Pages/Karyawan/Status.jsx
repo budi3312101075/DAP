@@ -252,10 +252,18 @@ const Status = () => {
             )}
             <Button
               type="submit"
-              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
               isi="Kirim"
             />
           </form>
+          <button
+            className="btn"
+            onClick={() => {
+              document.getElementById("my_modal_3").close();
+            }}
+          >
+            Close
+          </button>
         </div>
       </dialog>
     </>

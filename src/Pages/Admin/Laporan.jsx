@@ -155,7 +155,7 @@ const Laporan = () => {
               Export Excel{" "}
             </button>
           </DownloadTableExcel>
-          <table className="table" ref={tableRef}>
+          <table className="table">
             {/* head */}
             <thead>
               <tr className="bg-gray-500 text-black">
@@ -204,6 +204,37 @@ const Laporan = () => {
           </table>
         </div>
       </div>
+      <table className="table hidden" ref={tableRef}>
+        {/* head */}
+        <thead>
+          <tr className="bg-gray-500 text-black">
+            <th>No</th>
+            <th>Nama</th>
+            <th>No telepon</th>
+            <th>Tanggal</th>
+            <th>Deskripsi</th>
+            <th>Nominal</th>
+            <th>Jenis Bantuan</th>
+            <th>status</th>
+            <th>deskripsi status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map((data, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{data.nama}</td>
+              <td>{data.no_telepon}</td>
+              <td>{formatDate(data?.tanggal)}</td>
+              <td>{data.deskripsi}</td>
+              <td>{toRupiah(data.nominal)}</td>
+              <td>{data.jenis_bantuan}</td>
+              <td>{data.status}</td>
+              <td>{data.deskripsi_status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {showDataLaporan && (
         <div ref={targetRef}>
           <DataLaporan data={filteredData} />
