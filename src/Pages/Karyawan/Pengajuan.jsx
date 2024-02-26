@@ -32,7 +32,9 @@ const Pengajuan = () => {
 
   const jenisBantuan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kriteria");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/kriteria`
+      );
       setBantuan(response.data.data);
     } catch (error) {
       console.log("Error:", error.response.data);
@@ -65,7 +67,7 @@ const Pengajuan = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/pengajuan",
+          `${import.meta.env.VITE_API_URL}/pengajuan`,
           formData, // Menggunakan FormData sebagai body
           {
             headers: {

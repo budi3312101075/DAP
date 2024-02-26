@@ -43,7 +43,9 @@ const DaftarKeuangan = () => {
 
   const Keuangan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/keuangan");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/keuangan`
+      );
       setData(response.data.data);
       setTotalDana(response.data.totalDana);
     } catch (error) {
@@ -53,12 +55,15 @@ const DaftarKeuangan = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/keuangan", {
-        status: "pemasukan",
-        keterangan: data.keterangan,
-        tanggal: currentDate,
-        nominal: removeCommaAndConvertToInt(nominal),
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/keuangan`,
+        {
+          status: "pemasukan",
+          keterangan: data.keterangan,
+          tanggal: currentDate,
+          nominal: removeCommaAndConvertToInt(nominal),
+        }
+      );
       reset();
       Keuangan();
       toast.success("Pemasukan berhasil ditambahkan");
@@ -73,7 +78,7 @@ const DaftarKeuangan = () => {
   const deletedKeuangan = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/keuangan/${data.id}`
+        `${import.meta.env.VITE_API_URL}/keuangan/${data.id}`
       );
       if (response.status === 200) {
         toast.success("Keuangan Berhasil dihapus");
@@ -88,7 +93,7 @@ const DaftarKeuangan = () => {
     // console.log(data.keterangan, removeCommaAndConvertToInt(nominal));
     try {
       const response = await axios.patch(
-        `http://localhost:5000/updateKeuangan/${currentData.id}`,
+        `${import.meta.env.VITE_API_URL}/updateKeuangan/${currentData.id}`,
         {
           nominal: removeCommaAndConvertToInt(nominal),
           keterangan: data.keterangan,

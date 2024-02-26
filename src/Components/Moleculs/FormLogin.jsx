@@ -22,7 +22,10 @@ const FormLogin = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/Login", data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/Login`,
+        data
+      );
       if (response.data !== undefined && response.status === 200) {
         const userData = await response.data;
         setLoginResponse(userData);

@@ -36,7 +36,7 @@ const DaftarPengajuan = () => {
     }
 
     const response = await axios.patch(
-      `http://localhost:5000/konfirmasi/${currentData.id}`,
+      `${import.meta.env.VITE_API_URL}/konfirmasi/${currentData.id}`,
       requestBody,
       {
         headers: {
@@ -54,7 +54,9 @@ const DaftarPengajuan = () => {
 
   const pengajuan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/pengajuan");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/pengajuan`
+      );
       setData(response.data.data);
       // console.log(response.data.data);
     } catch (error) {
@@ -65,7 +67,7 @@ const DaftarPengajuan = () => {
   const deletedPengajuan = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/pengajuan/${data.id}`
+        `${import.meta.env.VITE_API_URL}/pengajuan/${data.id}`
       );
       if (response.status === 200) {
         toast.success("Pengajuan Berhasil dihapus");
@@ -117,7 +119,7 @@ const DaftarPengajuan = () => {
                   <td>{data?.jenis_bantuan}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/${data?.bukti}`}
+                      src={`${import.meta.env.VITE_API_URL}/${data?.bukti}`}
                       alt=""
                       className="w-14"
                     />
