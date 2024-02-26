@@ -33,7 +33,7 @@ const DaftarUser = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/Users");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/Users`);
       setData(response.data.data);
     } catch (error) {
       console.log(error);
@@ -42,7 +42,10 @@ const DaftarUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/Users", data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/Users`,
+        data
+      );
       toast.success("User berhasil dibuat");
       reset();
       getUser();
@@ -57,7 +60,7 @@ const DaftarUser = () => {
   const onUpdate = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/Users/${currentData.id}`,
+        `${import.meta.env.VITE_API_URL}/Users/${currentData.id}`,
         {
           nama: data.namas,
           username: data.usernames,
@@ -78,7 +81,7 @@ const DaftarUser = () => {
   const deletedUser = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/deletedUser/${data}`
+        `${import.meta.env.VITE_API_URL}/deletedUser/${data}`
       );
       if (response.status === 200) {
         toast.success(response.data.msg);
@@ -92,7 +95,7 @@ const DaftarUser = () => {
   const blockUser = async (data) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/blockUser/${data}`
+        `${import.meta.env.VITE_API_URL}/blockUser/${data}`
       );
       getUser();
       toast.success(response.data.msg);

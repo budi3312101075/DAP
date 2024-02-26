@@ -42,7 +42,9 @@ const KriteriaPengajuan = () => {
 
   const dataKriteria = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kriteria");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/kriteria`
+      );
       setData(response.data.data);
     } catch (error) {
       console.log("Error:", error.response.data);
@@ -52,13 +54,16 @@ const KriteriaPengajuan = () => {
   const onSubmit = async (data) => {
     try {
       // console.log(data);
-      const response = await axios.post("http://localhost:5000/kriteria", {
-        jenis_bantuan: data.jenis_bantuans,
-        nominal: removeCommaAndConvertToInt(nominal),
-        keterangan: data.keterangans,
-        dokumen: data.dokumens,
-        batas_waktu: removeCommaAndConvertToInt(data.batas_waktus),
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/kriteria`,
+        {
+          jenis_bantuan: data.jenis_bantuans,
+          nominal: removeCommaAndConvertToInt(nominal),
+          keterangan: data.keterangans,
+          dokumen: data.dokumens,
+          batas_waktu: removeCommaAndConvertToInt(data.batas_waktus),
+        }
+      );
       toast.success("Kriteria berhasil dibuat");
       resets();
       dataKriteria();
@@ -73,7 +78,7 @@ const KriteriaPengajuan = () => {
     // console.log(currentData.id);
     try {
       const response = await axios.patch(
-        `http://localhost:5000/updateKriteria/${currentData.id}`,
+        `${import.meta.env.VITE_API_URL}/updateKriteria/${currentData.id}`,
         {
           jenis_bantuan: data.jenis_bantuan,
           nominal: removeCommaAndConvertToInt(nominal),
@@ -96,7 +101,7 @@ const KriteriaPengajuan = () => {
   const deletedKriteria = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/kriteria/${data.id}`
+        `${import.meta.env.VITE_API_URL}/kriteria/${data.id}`
       );
       if (response.status === 200) {
         toast.success("kriteria Berhasil dihapus");

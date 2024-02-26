@@ -32,7 +32,9 @@ const Status = () => {
 
   const statusPengajuan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/pengajuanUsers");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/pengajuanUsers`
+      );
       setData(response.data.data); // Asumsi bahwa data berada dalam properti "data"
       // console.log("Response:", response.data);
     } catch (error) {
@@ -45,7 +47,9 @@ const Status = () => {
   // console.log(bantuan);
   const jenisBantuan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kriteria");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/kriteria`
+      );
       setBantuan(response.data.data);
     } catch (error) {
       console.log("Error:", error.response.data);
@@ -74,7 +78,7 @@ const Status = () => {
 
   const onSubmit = async (data) => {
     const response = await axios.patch(
-      `http://localhost:5000/updatePengajuan/${currentData.id}`,
+      `${import.meta.env.VITE_API_URL}/updatePengajuan/${currentData.id}`,
       {
         nominal: removeCommaAndConvertToInt(nominal),
         deskripsi: data?.deskripsi,
@@ -141,7 +145,9 @@ const Status = () => {
                       ) : (
                         <img
                           className="w-16 mx-auto"
-                          src={`http://localhost:5000/${data?.bukti_transfer}`}
+                          src={`${import.meta.env.VITE_API_URL}/${
+                            data?.bukti_transfer
+                          }`}
                           alt="bukti transfer"
                         />
                       )}

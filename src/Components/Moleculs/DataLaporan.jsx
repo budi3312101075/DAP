@@ -52,7 +52,7 @@ const DataLaporan = ({ data }) => {
                   <td>{data.jenis_bantuan}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/${data?.bukti}`}
+                      src={`${import.meta.env.VITE_API_URL}/${data?.bukti}`}
                       alt=""
                       className="w-14"
                     />
@@ -61,7 +61,9 @@ const DataLaporan = ({ data }) => {
                   <td>{data.deskripsi_status}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/${data?.bukti_transfer}`}
+                      src={`${import.meta.env.VITE_API_URL}/${
+                        data?.bukti_transfer
+                      }`}
                       alt=""
                       className="w-14"
                     />

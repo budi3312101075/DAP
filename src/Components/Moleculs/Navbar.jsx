@@ -39,14 +39,14 @@ const Navbar = () => {
   };
 
   const getMe = async () => {
-    const response = await axios.get("http://localhost:5000/getMe");
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/getMe`);
     setUser(response.data.data[0]);
   };
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/Users/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/Users/${user.id}`,
         data
       );
       getMe();
@@ -61,7 +61,7 @@ const Navbar = () => {
   const resetPassword = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/resetPassword/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/resetPassword/${user.id}`,
         data
       );
       getMe();
@@ -76,7 +76,7 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    const logout = await axios.get("http://localhost:5000/Logout");
+    const logout = await axios.get(`${import.meta.env.VITE_API_URL}/Logout`);
     setLoginResponse(logout);
     navigate("/");
     setLogOut();
@@ -422,7 +422,7 @@ const Navbar = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("currentPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan password sebelumnya"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (
@@ -441,7 +441,7 @@ const Navbar = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("newPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan password baru"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (
@@ -460,7 +460,7 @@ const Navbar = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("confirmPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan ulang password baru"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (

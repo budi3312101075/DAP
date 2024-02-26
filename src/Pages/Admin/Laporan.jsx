@@ -26,7 +26,9 @@ const Laporan = () => {
 
   const jenisBantuan = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kriteria");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/kriteria`
+      );
       setBantuan(response.data.data);
     } catch (error) {
       console.log("Error:", error.response.data);
@@ -34,7 +36,7 @@ const Laporan = () => {
   };
 
   const dataLaporan = async () => {
-    const response = await axios.get("http://localhost:5000/laporan");
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/laporan`);
     setData(response.data.data);
   };
 
@@ -184,7 +186,7 @@ const Laporan = () => {
                   <td>{data.jenis_bantuan}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/${data?.bukti}`}
+                      src={`${import.meta.env.VITE_API_URL}/${data?.bukti}`}
                       alt=""
                       className="w-14"
                     />
@@ -193,7 +195,9 @@ const Laporan = () => {
                   <td>{data.deskripsi_status}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/${data?.bukti_transfer}`}
+                      src={`${import.meta.env.VITE_API_URL}/${
+                        data?.bukti_transfer
+                      }`}
                       alt=""
                       className="w-14"
                     />

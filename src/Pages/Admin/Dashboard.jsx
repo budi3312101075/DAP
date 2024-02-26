@@ -147,7 +147,7 @@ export default function Sidebar() {
 
   const { loginResponse, setLoginResponse, setLogOut } = useAuth();
   const handleLogout = async () => {
-    const logout = await axios.get("http://localhost:5000/Logout");
+    const logout = await axios.get(`${import.meta.env.VITE_API_URL}/Logout`);
     setLoginResponse(logout);
     navigate("/");
     setLogOut();
@@ -155,14 +155,14 @@ export default function Sidebar() {
   };
 
   const getMe = async () => {
-    const response = await axios.get("http://localhost:5000/getMe");
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/getMe`);
     setCurrentUser(response.data.data[0]);
   };
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/Users/${currentUser.id}`,
+        `${import.meta.env.VITE_API_URL}/Users/${currentUser.id}`,
         data
       );
       toast.success(response.data.msg);
@@ -177,7 +177,7 @@ export default function Sidebar() {
   const resetPassword = async (data) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/resetPassword/${currentUser.id}`,
+        `${import.meta.env.VITE_API_URL}/resetPassword/${currentUser.id}`,
         data
       );
       getMe();
@@ -592,7 +592,7 @@ export default function Sidebar() {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("currentPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan password sebelumnya"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (
@@ -611,7 +611,7 @@ export default function Sidebar() {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("newPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan password baru"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (
@@ -630,7 +630,7 @@ export default function Sidebar() {
               <input
                 type={showPassword ? "text" : "password"}
                 {...registers("confirmPassword", { required: true })}
-                placeholder="Masukan password"
+                placeholder="Masukan ulang password baru"
                 className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
               />
               {showPassword ? (
@@ -652,6 +652,7 @@ export default function Sidebar() {
             className="px-4 py-2 bg-black rounded-lg text-white w-full "
             onClick={() => {
               document.getElementById("my_modal_20").close();
+              resets();
             }}
           >
             Close
