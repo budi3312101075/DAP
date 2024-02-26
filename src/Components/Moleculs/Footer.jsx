@@ -17,7 +17,7 @@ const Footer = () => {
             <header className="text-lg mb-2 text-white uppercase">
               Hubungi Kami
             </header>
-            <a className="link link-hover">Whatshapp</a>
+            <a className="link link-hover">WhatsApp</a>
             <a className="link link-hover">Instagram</a>
             <a className="link link-hover">LinkedIn</a>
           </nav>

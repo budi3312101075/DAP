@@ -80,7 +80,7 @@ const Pengajuan = () => {
         // Reset the form after successful submission
         reset();
       } catch (error) {
-        if (error.response.status === 422) {
+        if (error.response.status === 400) {
           toast.error("Pengajuan ditolak karena masih dalam cooldown");
         } else {
           toast.error("Pengajuan anda gagal untuk dikirim");
