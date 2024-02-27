@@ -11,7 +11,9 @@ const Home = () => {
 
   const getDana = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/totalDana");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/totalDana`
+      );
       setTotalDana(response.data.totalDana);
     } catch (error) {
       console.error("Error:", error.response.data);

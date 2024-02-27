@@ -16,7 +16,7 @@ const LaporanKaryawan = () => {
   const [showDataLaporan, setShowDataLaporan] = useState(false);
 
   const dataLaporan = async () => {
-    const response = await axios.get("http://localhost:5000/laporan");
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/laporan`);
     setData(response.data.data);
   };
 
