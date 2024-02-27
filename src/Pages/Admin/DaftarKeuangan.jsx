@@ -96,10 +96,10 @@ const DaftarKeuangan = () => {
       );
       resets();
       Keuangan();
-      toast.success("Kriteria Berhasil diupdate");
+      toast.success("Pemasukan Berhasil diupdate");
       document.getElementById("my_modal_2").close();
     } catch (error) {
-      toast.error("Kriteria anda gagal untuk diupdate");
+      toast.error("Pemasukan anda gagal untuk diupdate");
       document.getElementById("my_modal_2").close();
       console.log("Error:", error.response.data);
     }
