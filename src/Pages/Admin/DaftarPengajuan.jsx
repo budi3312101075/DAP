@@ -17,6 +17,7 @@ const DaftarPengajuan = () => {
 
   const [data, setData] = useState();
   const [currentData, setCurrentData] = useState();
+  const [selectedStatus, setSelectedStatus] = useState();
 
   const onSubmit = async (data) => {
     let requestBody = {
@@ -167,6 +168,7 @@ const DaftarPengajuan = () => {
             className={`select select-bordered w-full bg-primary border border-black text-black${
               errors["status"] && "input-error"
             }`}
+            onChange={(e) => setSelectedStatus(e.target.value)}
           >
             <option disabled>Pilih Status</option>
             <option value=""></option>
@@ -198,7 +200,9 @@ const DaftarPengajuan = () => {
           <input
             {...register("bukti_transfer")}
             type="file"
-            className={`file-input file-input-bordered w-full bg-primary border border-black text-black`}
+            className={`file-input file-input-bordered w-full bg-primary border border-black text-black ${
+              selectedStatus !== "selesai" ? "hidden" : ""
+            }`}
           />
           <Button
             type="submit"
