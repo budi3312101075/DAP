@@ -154,6 +154,7 @@ const DaftarPengajuan = () => {
           </table>
         </div>
       </div>
+      {/* modal konfirmasi pengajuan */}
       <Modals title="Konfirmasi Pengajuan" reset={reset}>
         <form
           onSubmit={handleSubmit(onSubmit)}
