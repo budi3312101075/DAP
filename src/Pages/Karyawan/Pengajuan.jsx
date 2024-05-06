@@ -19,14 +19,6 @@ const Pengajuan = () => {
   const currentDate = new Date().toISOString().split("T")[0];
 
   const user = detailUser();
-
-  const [nominal, setNominal] = useState(0);
-  function removeCommaAndConvertToInt(nominal) {
-    const stringWithoutComma = nominal?.replace(/,/g, "");
-    const result = parseInt(stringWithoutComma, 10);
-    return result;
-  }
-
   const [bantuan, setBantuan] = useState();
   // console.log(bantuan);
 
@@ -59,7 +51,6 @@ const Pengajuan = () => {
     if (isConfirmed.isConfirmed) {
       const formData = new FormData();
       formData.append("tanggal", data.tanggal);
-      formData.append("nominal", removeCommaAndConvertToInt(nominal));
       formData.append("deskripsi", data.deskripsi);
       formData.append("id_kriteria", data.id_kriteria);
       formData.append("bukti", data.bukti[0]);
@@ -83,7 +74,7 @@ const Pengajuan = () => {
         reset();
       } catch (error) {
         if (error.response.status === 400) {
-          toast.error("Pengajuan ditolak karena masih dalam cooldown");
+          toast.error("Pengajuan ditolak karena masih dalam batas waktu");
         } else {
           toast.error("Pengajuan anda gagal untuk dikirim");
         }
@@ -119,29 +110,6 @@ const Pengajuan = () => {
                 {errors.tanggal.message}
               </span>
             )}
-            <NumericFormat
-              allowLeadingZeros
-              required={true}
-              thousandSeparator=","
-              onChange={(e) => {
-                setNominal(e.target.value);
-              }}
-              placeholder="Nominal yang ingin diajukan"
-              className={`input input-bordered w-full max-w-lg bg-primary border border-black text-black `}
-            />
-
-            <textarea
-              {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
-              placeholder="Deskripsi bantuan"
-              className={`textarea textarea-bordered w-full max-w-lg bg-primary border border-black text-black placeholder:pt-3 ${
-                errors.deskripsi && "input-error"
-              }`}
-            />
-            {errors.deskripsi && (
-              <span className="text-red-500 text-sm">
-                {errors.deskripsi.message}
-              </span>
-            )}
 
             {/* =================== */}
             <select
@@ -167,6 +135,20 @@ const Pengajuan = () => {
               </span>
             )}
             {/* =================== */}
+
+            <textarea
+              {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
+              placeholder="Deskripsi bantuan"
+              className={`textarea textarea-bordered w-full max-w-lg bg-primary border border-black text-black placeholder:pt-3 ${
+                errors.deskripsi && "input-error"
+              }`}
+            />
+            {errors.deskripsi && (
+              <span className="text-red-500 text-sm">
+                {errors.deskripsi.message}
+              </span>
+            )}
+
             <input
               {...register("bukti", { required: "Bukti wajib diupload" })}
               type="file"

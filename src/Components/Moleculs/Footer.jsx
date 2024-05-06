@@ -33,7 +33,8 @@ const Footer = () => {
         </div>
       </footer>
       <footer className="footer px-10 py-4 border-t-2 bg-secondary text-white border-white">
-        <p className="place-self-center">© 2024 POLITEKNIK NEGERI BATAM</p>
+        <p className="place-self-end">© 2024 POLITEKNIK NEGERI BATAM</p>
+        <small className="place-self-end">© Budi prayoga</small>
       </footer>
     </>
   );

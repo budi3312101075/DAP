@@ -6,6 +6,7 @@ import DataLaporanKaryawan from "../../Components/Moleculs/DataLaporanKaryawan";
 
 const LaporanKaryawan = () => {
   const [data, setData] = useState();
+  const [totalDana, setTotalDana] = useState();
   const [filter, setFilter] = useState({
     tanggalAwal: "",
     tanggalAkhir: "",
@@ -16,8 +17,11 @@ const LaporanKaryawan = () => {
   const [showDataLaporan, setShowDataLaporan] = useState(false);
 
   const dataLaporan = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/laporan`);
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/keuangan`
+    );
     setData(response.data.data);
+    setTotalDana(response.data.totalDana);
   };
 
   useEffect(() => {
@@ -70,6 +74,9 @@ const LaporanKaryawan = () => {
             >
               Export Pdf
             </button>
+            <h1 className="text-xs lg:text-base text-black my-auto ml-5">
+              Total Dana: {toRupiah(totalDana)}
+            </h1>
           </div>
           <input
             type="text"
@@ -98,9 +105,8 @@ const LaporanKaryawan = () => {
                 <th>No</th>
                 <th>Tanggal</th>
                 <th>Nominal</th>
-                <th>Jenis Bantuan</th>
+                <th>Keterangan</th>
                 <th>Status</th>
-                <th>Deskripsi Status</th>
               </tr>
             </thead>
             <tbody>
@@ -109,9 +115,8 @@ const LaporanKaryawan = () => {
                   <td>{index + 1}</td>
                   <td>{formatDate(data?.tanggal)}</td>
                   <td>{toRupiah(data?.nominal)}</td>
-                  <td>{data?.jenis_bantuan}</td>
+                  <td>{data?.keterangan}</td>
                   <td>{data?.status}</td>
-                  <td>{data?.deskripsi_status}</td>
                 </tr>
               ))}
             </tbody>

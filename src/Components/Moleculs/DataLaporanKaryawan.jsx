@@ -34,9 +34,8 @@ const DataLaporanKaryawan = ({ data }) => {
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>Nominal</th>
-                  <th>Jenis Bantuan</th>
+                  <th>Keterangan</th>
                   <th>Status</th>
-                  <th>Deskripsi Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -45,9 +44,8 @@ const DataLaporanKaryawan = ({ data }) => {
                     <td>{index + 1}</td>
                     <td>{formatDate(data?.tanggal)}</td>
                     <td>{toRupiah(data?.nominal)}</td>
-                    <td>{data?.jenis_bantuan}</td>
+                    <td>{data?.keterangan}</td>
                     <td>{data?.status}</td>
-                    <td>{data?.deskripsi_status}</td>
                   </tr>
                 ))}
               </tbody>

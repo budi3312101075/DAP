@@ -18,11 +18,18 @@ const DaftarPengajuan = () => {
   const [data, setData] = useState();
   const [currentData, setCurrentData] = useState();
   const [selectedStatus, setSelectedStatus] = useState();
+  const [filter, setFilter] = useState({
+    tanggalAwal: "",
+    tanggalAkhir: "",
+    tahun: "",
+  });
+  const [filteredData, setFilteredData] = useState([]);
 
   const onSubmit = async (data) => {
     let requestBody = {
       status: data?.status,
       deskripsi_status: data?.deskripsi_status,
+      id_users: currentData?.usersId,
     };
 
     if (data?.status == "selesai") {
@@ -83,6 +90,26 @@ const DaftarPengajuan = () => {
     pengajuan();
   }, []);
 
+  const handleFilterChange = (field, value) => {
+    setFilter((prevFilter) => ({ ...prevFilter, [field]: value }));
+  };
+
+  useEffect(() => {
+    // Update filteredData setiap kali data atau filter berubah
+    const newFilteredData = data
+      ? data.filter((data) => {
+          const isTanggalMatch =
+            (!filter.tanggalAwal || data.tanggal >= filter.tanggalAwal) &&
+            (!filter.tanggalAkhir || data.tanggal <= filter.tanggalAkhir);
+          const isTahunMatch =
+            !filter.tahun || data.tanggal.includes(filter.tahun);
+          return isTanggalMatch && isTahunMatch;
+        })
+      : [];
+
+    setFilteredData(newFilteredData);
+  }, [data, filter]);
+
   return (
     <>
       <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8 sm:p-8 font-poppins">
@@ -90,6 +117,26 @@ const DaftarPengajuan = () => {
           Daftar Pengajuan
           <hr className="my-2 border-gray-500" />
         </h1>
+        <div className="flex justify-end gap-2">
+          <input
+            type="text"
+            placeholder="Filter by Tahun"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tahun", e.target.value)}
+          />
+          <input
+            type="date"
+            placeholder="Filter by Tanggal Awal"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tanggalAwal", e.target.value)}
+          />
+          <input
+            type="date"
+            placeholder="Filter by Tanggal Akhir"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tanggalAkhir", e.target.value)}
+          />
+        </div>
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -109,31 +156,33 @@ const DaftarPengajuan = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((data, index) => (
+              {filteredData?.map((filteredData, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{data?.nama}</td>
-                  <td>{formatDate(data?.tanggal)}</td>
-                  <td>{data?.deskripsi}</td>
-                  <td>{toRupiah(data?.nominal)}</td>
-                  <td>{data?.no_telepon}</td>
-                  <td>{data?.jenis_bantuan}</td>
+                  <td>{filteredData?.nama}</td>
+                  <td>{formatDate(filteredData?.tanggal)}</td>
+                  <td>{filteredData?.deskripsi}</td>
+                  <td>{toRupiah(filteredData?.nominal)}</td>
+                  <td>{filteredData?.no_telepon}</td>
+                  <td>{filteredData?.jenis_bantuan}</td>
                   <td>
                     <img
-                      src={`${import.meta.env.VITE_API_URL}/${data?.bukti}`}
+                      src={`${import.meta.env.VITE_API_URL}/${
+                        filteredData?.bukti
+                      }`}
                       alt=""
                       className="w-14"
                     />
                   </td>
-                  <td>{data?.status}</td>
-                  <td>{data?.deskripsi_status}</td>
+                  <td>{filteredData?.status}</td>
+                  <td>{filteredData?.deskripsi_status}</td>
                   <td className="flex flex-col gap-1">
                     <button
                       className={`bg-secondary py-1 px-3 rounded-xl ${
-                        data?.status === "selesai" ? "btn-disabled" : ""
+                        filteredData?.status === "selesai" ? "btn-disabled" : ""
                       } `}
                       onClick={() => {
-                        setCurrentData(data);
+                        setCurrentData(filteredData);
                         document.getElementById("my_modal_1").showModal();
                       }}
                     >
@@ -142,7 +191,7 @@ const DaftarPengajuan = () => {
                     <button
                       className="bg-red-500 py-1 px-3 rounded-xl"
                       onClick={() => {
-                        deletedPengajuan(data);
+                        deletedPengajuan(filteredData);
                       }}
                     >
                       Hapus

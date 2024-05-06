@@ -86,7 +86,7 @@ const Laporan = () => {
     <>
       <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8  font-poppins">
         <h1 className="sm:text-xl xl:text-2xl font-thin text-black">
-          Laporan
+          Laporan Pengajuan
           <hr className="my-2 border-gray-500" />
         </h1>
 

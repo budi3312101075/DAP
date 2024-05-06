@@ -27,6 +27,12 @@ const DaftarKeuangan = () => {
   const [totalDana, setTotalDana] = useState(0);
   const [nominal, setNominal] = useState();
   const [currentData, setCurrentData] = useState();
+  const [filter, setFilter] = useState({
+    tanggalAwal: "",
+    tanggalAkhir: "",
+    tahun: "",
+  });
+  const [filteredData, setFilteredData] = useState([]);
 
   function removeCommaAndConvertToInt(nominal) {
     if (typeof nominal === "string") {
@@ -119,6 +125,26 @@ const DaftarKeuangan = () => {
     setNominal(currentData?.nominal);
   }, [currentData]);
 
+  const handleFilterChange = (field, value) => {
+    setFilter((prevFilter) => ({ ...prevFilter, [field]: value }));
+  };
+
+  useEffect(() => {
+    // Update filteredData setiap kali data atau filter berubah
+    const newFilteredData = data
+      ? data.filter((data) => {
+          const isTanggalMatch =
+            (!filter.tanggalAwal || data.tanggal >= filter.tanggalAwal) &&
+            (!filter.tanggalAkhir || data.tanggal <= filter.tanggalAkhir);
+          const isTahunMatch =
+            !filter.tahun || data.tanggal.includes(filter.tahun);
+          return isTanggalMatch && isTahunMatch;
+        })
+      : [];
+
+    setFilteredData(newFilteredData);
+  }, [data, filter]);
+
   return (
     <>
       <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8 sm:p-8 font-poppins">
@@ -126,6 +152,7 @@ const DaftarKeuangan = () => {
           Daftar Keuangan
           <hr className="my-2 border-gray-500" />
         </h1>
+
         <div className="flex justify-between items-center">
           <button
             className="bg-secondary py-1 px-3 rounded-xl max-w-max -mb-5"
@@ -135,9 +162,29 @@ const DaftarKeuangan = () => {
           >
             Tambah Pemasukan
           </button>
-          <p className="text-black font-semibold text-md -mb-6 justify-end">
+          <p className="text-black font-semibold text-md -mb-3 justify-end">
             Total Dana : {toRupiah(totalDana)}
           </p>
+        </div>
+        <div className="flex justify-end gap-2 -mb-3">
+          <input
+            type="text"
+            placeholder="Filter by Tahun"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tahun", e.target.value)}
+          />
+          <input
+            type="date"
+            placeholder="Filter by Tanggal Awal"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tanggalAwal", e.target.value)}
+          />
+          <input
+            type="date"
+            placeholder="Filter by Tanggal Akhir"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("tanggalAkhir", e.target.value)}
+          />
         </div>
         <div className="overflow-x-auto">
           <table className="table">
@@ -153,22 +200,22 @@ const DaftarKeuangan = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((data, index) => (
+              {filteredData?.map((filteredData, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{data?.status}</td>
-                  <td>{data?.keterangan}</td>
-                  <td>{formatDate(data?.tanggal)}</td>
-                  <td>{toRupiah(data?.nominal)}</td>
+                  <td>{filteredData?.status}</td>
+                  <td>{filteredData?.keterangan}</td>
+                  <td>{formatDate(filteredData?.tanggal)}</td>
+                  <td>{toRupiah(filteredData?.nominal)}</td>
                   <td className="flex flex-col gap-1">
                     <button
                       className={`${
-                        data.status === "pengeluaran"
+                        filteredData.status === "pengeluaran"
                           ? "hidden"
                           : "bg-yellow-500 py-1 px-3 rounded-xl"
                       }`}
                       onClick={() => {
-                        setCurrentData(data);
+                        setCurrentData(filteredData);
                         document.getElementById("my_modal_2").showModal();
                       }}
                     >
@@ -177,7 +224,7 @@ const DaftarKeuangan = () => {
                     <button
                       className="bg-red-500 py-1 px-3 rounded-xl"
                       onClick={() => {
-                        deletedKeuangan(data);
+                        deletedKeuangan(filteredData);
                       }}
                     >
                       Hapus

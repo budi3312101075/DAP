@@ -26,6 +26,10 @@ const DaftarUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState();
   const [currentData, setCurrentData] = useState();
+  const [filter, setFilter] = useState({
+    nama: "",
+  });
+  const [filteredData, setFilteredData] = useState([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -115,6 +119,22 @@ const DaftarUser = () => {
     setValue("no_telepons", currentData?.no_telepon);
     setValue("roles", currentData?.role);
   }, [currentData]);
+
+  const handleFilterChange = (field, value) => {
+    setFilter((prevFilter) => ({ ...prevFilter, [field]: value }));
+  };
+
+  useEffect(() => {
+    // Update filteredData setiap kali data atau filter berubah
+    const newFilteredData = data
+      ? data.filter((data) => {
+          const isName = !filter.nama || data.nama.includes(filter.nama);
+          return isName;
+        })
+      : [];
+
+    setFilteredData(newFilteredData);
+  }, [data, filter]);
   return (
     <>
       <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8  font-poppins">
@@ -122,14 +142,22 @@ const DaftarUser = () => {
           Daftar User
           <hr className="my-2 border-gray-500" />
         </h1>
-        <button
-          className="bg-secondary py-1 px-3 rounded-xl w-36 -mb-5"
-          onClick={() => {
-            document.getElementById("my_modal_1").showModal();
-          }}
-        >
-          Tambah User
-        </button>
+        <div className="flex justify-between">
+          <button
+            className="bg-secondary py-1 px-3 rounded-xl w-36 -mb-5 h-full"
+            onClick={() => {
+              document.getElementById("my_modal_1").showModal();
+            }}
+          >
+            Tambah User
+          </button>
+          <input
+            type="text"
+            placeholder="Search name"
+            className="input input-bordered w-full max-w-xs bg-primary border border-black"
+            onChange={(e) => handleFilterChange("nama", e.target.value)}
+          />
+        </div>
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -146,28 +174,28 @@ const DaftarUser = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((data, index) => (
+              {filteredData?.map((filteredData, index) => (
                 <tr key={index} className="text-center">
                   <td>{index + 1}</td>
-                  <td>{data?.nama}</td>
-                  <td>{data?.username}</td>
-                  <td>{data?.email}</td>
-                  <td>{data?.no_telepon}</td>
-                  <td>{data.role}</td>
-                  <td>{data?.is_Blocked ? "Blocked" : "Aktif"}</td>
+                  <td>{filteredData?.nama}</td>
+                  <td>{filteredData?.username}</td>
+                  <td>{filteredData?.email}</td>
+                  <td>{filteredData?.no_telepon}</td>
+                  <td>{filteredData.role}</td>
+                  <td>{filteredData?.is_Blocked ? "Blocked" : "Aktif"}</td>
                   <td className="flex flex-col gap-1">
                     <button
                       className="bg-yellow-500 py-1 px-3 rounded-xl"
-                      onClick={() => blockUser(data.id)}
+                      onClick={() => blockUser(filteredData.id)}
                     >
-                      {data?.is_Blocked ? "Unblock" : "Block"}
+                      {filteredData?.is_Blocked ? "Unblock" : "Block"}
                     </button>
                     <button
                       className={`bg-yellow-500 py-1 px-3 rounded-xl ${
-                        data?.is_Blocked ? "hidden" : ""
+                        filteredData?.is_Blocked ? "hidden" : ""
                       }`}
                       onClick={() => {
-                        setCurrentData(data);
+                        setCurrentData(filteredData);
                         document.getElementById("my_modal_2").showModal();
                       }}
                     >
@@ -176,7 +204,7 @@ const DaftarUser = () => {
                     <button
                       className="bg-red-500 py-1 px-3 rounded-xl"
                       onClick={() => {
-                        deletedUser(data.id);
+                        deletedUser(filteredData.id);
                       }}
                     >
                       Hapus

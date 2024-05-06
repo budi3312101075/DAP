@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toRupiah } from "../../utils/helper";
-import Modals from "../../Components/Moleculs/Modals";
 import { useForm } from "react-hook-form";
-import { NumericFormat } from "react-number-format";
 import Button from "../../Components/Atoms/Button";
 import { toast } from "react-toastify";
 import { MdOutlinePendingActions } from "react-icons/md";
@@ -42,47 +40,17 @@ const Status = () => {
     }
   };
 
-  // ============================================
-  const [bantuan, setBantuan] = useState();
-  // console.log(bantuan);
-  const jenisBantuan = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/kriteria`
-      );
-      setBantuan(response.data.data);
-    } catch (error) {
-      console.log("Error:", error.response.data);
-    }
-  };
-  // ==============================================
-
   useEffect(() => {
     statusPengajuan();
-    jenisBantuan();
   }, []);
 
   // controller untuk pengajuan ulang
-  const [nominal, setNominal] = useState(0);
-
-  function removeCommaAndConvertToInt(nominal) {
-    if (typeof nominal === "string") {
-      const stringWithoutComma = nominal.replace(/,/g, "");
-      const result = parseInt(stringWithoutComma, 10);
-      return result;
-    } else {
-      // Jika nominal bukan string, kembalikan nilai asli tanpa perubahan
-      return nominal;
-    }
-  }
 
   const onSubmit = async (data) => {
     const response = await axios.patch(
       `${import.meta.env.VITE_API_URL}/updatePengajuan/${currentData.id}`,
       {
-        nominal: removeCommaAndConvertToInt(nominal),
         deskripsi: data?.deskripsi,
-        id_kriteria: data?.id_kriteria,
         bukti: data?.bukti[0],
       },
       {
@@ -102,7 +70,6 @@ const Status = () => {
     setValue("deskripsi", currentData?.deskripsi);
     setValue("id_kriteria", currentData?.id_kriteria);
     setValue("bukti", currentData?.bukti);
-    setNominal(currentData?.nominal);
   }, [currentData]);
 
   return (
@@ -193,18 +160,6 @@ const Status = () => {
             encType="multipart/form-data"
             className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
           >
-            <NumericFormat
-              defaultValue={currentData?.nominal}
-              value={currentData?.nominal}
-              allowLeadingZeros
-              required={true}
-              thousandSeparator=","
-              onChange={(e) => {
-                setNominal(e.target.value);
-              }}
-              placeholder="Nominal yang ingin diajukan"
-              className={`input input-bordered w-full bg-primary border border-black text-black `}
-            />
             <textarea
               {...register("deskripsi", { required: "Deskripsi wajib diisi" })}
               placeholder="Deskripsi bantuan"
@@ -217,32 +172,6 @@ const Status = () => {
                 {errors.deskripsi.message}
               </span>
             )}
-
-            {/* ============================== */}
-            <select
-              {...register("id_kriteria", {
-                required: "jenis bantuan wajib dipilih",
-              })}
-              value={currentData?.id_kriteria}
-              className={`select select-bordered w-full bg-primary border border-black text-black${
-                errors["id_kriteria"] && "input-error"
-              }`}
-            >
-              <option disabled>Pilih Jenis Bantuan</option>;
-              {bantuan?.map((bantuan, index) => {
-                return (
-                  <option key={index} value={bantuan.id}>
-                    {bantuan.jenis_bantuan}
-                  </option>
-                );
-              })}
-            </select>
-            {errors["id_kriteria"] && (
-              <span className="text-red-500 text-sm">
-                {errors["id_kriteria"].message}
-              </span>
-            )}
-            {/*====================================  */}
 
             <input
               {...register("bukti", { required: "Bukti wajib diupload" })}
