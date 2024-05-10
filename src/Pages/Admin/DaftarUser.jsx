@@ -6,6 +6,7 @@ import Button from "../../Components/Atoms/Button";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { IoEyeSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
+import Pagination from "../../Components/Moleculs/Pagination";
 
 const DaftarUser = () => {
   const {
@@ -30,6 +31,13 @@ const DaftarUser = () => {
     nama: "",
   });
   const [filteredData, setFilteredData] = useState([]);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const dataPagination = filteredData.slice(startIndex, endIndex);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -125,19 +133,19 @@ const DaftarUser = () => {
   };
 
   useEffect(() => {
-    // Update filteredData setiap kali data atau filter berubah
-    const newFilteredData = data
-      ? data.filter((data) => {
-          const isName = !filter.nama || data.nama.includes(filter.nama);
-          return isName;
-        })
-      : [];
+    if (data) {
+      // Data harus diisi sebelum mencoba menyaringnya
+      const newFilteredData = data.filter((item) => {
+        const isNameValid = !filter.nama || item.nama.includes(filter.nama);
+        return isNameValid;
+      });
 
-    setFilteredData(newFilteredData);
+      setFilteredData(newFilteredData);
+    }
   }, [data, filter]);
   return (
     <>
-      <div className="h-screen flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8  font-poppins">
+      <div className="flex flex-col mt-16 gap-7 bg-primary rounded-2xl p-8  font-poppins">
         <h1 className="sm:text-xl xl:text-2xl font-thin text-black">
           Daftar User
           <hr className="my-2 border-gray-500" />
@@ -174,9 +182,9 @@ const DaftarUser = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((filteredData, index) => (
+              {dataPagination?.map((filteredData, index) => (
                 <tr key={index} className="text-center">
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * pageSize + index + 1}</td>
                   <td>{filteredData?.nama}</td>
                   <td>{filteredData?.username}</td>
                   <td>{filteredData?.email}</td>
@@ -214,6 +222,13 @@ const DaftarUser = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-center -mt-5">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </div>
       <Modals title={"Tambah Users"} reset={reset}>

@@ -60,7 +60,7 @@ const FormLogin = () => {
               className="w-full bg-[#f2f4f6] placeholder:text-tertiary"
               {...register("username", {
                 required: true,
-                maxLength: 20,
+                maxLength: 75,
                 pattern: /^[A-Za-z0-9]+$/i,
               })}
               placeholder="Masukan username anda"
