@@ -24,6 +24,13 @@ const DaftarUser = () => {
     formState,
   } = useForm();
 
+  const {
+    register: registerss,
+    handleSubmit: handleSubmitss,
+    reset: resetss,
+    formState: { errorss },
+  } = useForm();
+
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState();
   const [currentData, setCurrentData] = useState();
@@ -113,6 +120,23 @@ const DaftarUser = () => {
       toast.success(response.data.msg);
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  const resetPassword = async (data) => {
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/resetPasswordAdmin/${currentData.id}`,
+        data
+      );
+      getUser();
+      resetss();
+      toast.success(response.data.msg);
+      document.getElementById("my_modal_76").close();
+    } catch (error) {
+      toast.error(error.response.data.msg);
+      resetss();
+      document.getElementById("my_modal_76").close();
     }
   };
 
@@ -208,6 +232,15 @@ const DaftarUser = () => {
                       }}
                     >
                       Ubah
+                    </button>
+                    <button
+                      className="bg-yellow-500 py-1 px-3 rounded-xl"
+                      onClick={() => {
+                        setCurrentData(filteredData);
+                        document.getElementById("my_modal_76").showModal();
+                      }}
+                    >
+                      Reset Password
                     </button>
                     <button
                       className="bg-red-500 py-1 px-3 rounded-xl"
@@ -350,6 +383,64 @@ const DaftarUser = () => {
           />
         </form>
       </Modals>
+
+      {/* modal reset Password */}
+      <dialog id="my_modal_76" className="modal">
+        <div className="modal-box bg-primary text-black max-w-none flex flex-col gap-8">
+          <h3 className="font-bold text-lg">Reset Password</h3>
+          <form
+            onSubmit={handleSubmitss(resetPassword)}
+            className="flex flex-col gap-5 w-full justify-center items-center rounded-xl"
+          >
+            <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...registerss("newPassword", { required: true })}
+                placeholder="Masukan password baru"
+                className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
+              />
+              {showPassword ? (
+                <AiFillEyeInvisible
+                  size={25}
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+              )}
+            </div>
+            <div className="input input-bordered border-black flex justify-between w-full gap-5 items-center bg-[#f2f4f6]">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...registerss("confirmPassword", { required: true })}
+                placeholder="Masukan ulang password baru"
+                className="w-full bg-[#f2f4f6] -ml-2 placeholder:text-tertiary"
+              />
+              {showPassword ? (
+                <AiFillEyeInvisible
+                  size={25}
+                  onClick={togglePasswordVisibility}
+                />
+              ) : (
+                <IoEyeSharp size={25} onClick={togglePasswordVisibility} />
+              )}
+            </div>
+            <Button
+              type="submit"
+              style="w-1/2 mx-auto bg-secondary mt-2 text-primary py-1 -mb-5"
+              isi="Kirim"
+            />
+          </form>
+          <button
+            className="px-4 py-2 bg-black rounded-lg text-white w-full "
+            onClick={() => {
+              resetss();
+              document.getElementById("my_modal_76").close();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </dialog>
 
       {/* modal update */}
       <dialog id="my_modal_2" className="modal">
